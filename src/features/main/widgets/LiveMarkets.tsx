@@ -1,4 +1,4 @@
-import { Carousel } from "@/shared/components/Carousel";
+import { Marquee } from "@/shared/components/Marquee";
 
 export function LiveMarkets() {
   return (
@@ -10,7 +10,7 @@ export function LiveMarkets() {
         </p>
       </div>
       <div className="min-w-0 flex-1 bg-neutral-700">
-        <Carousel>
+        <Marquee>
           <div className="flex items-center">
             <div className="flex w-fit shrink-0 items-center gap-x-2.5 border-r border-neutral-500 px-3 py-3 md:px-5">
               <p className="text-preset-6 md:text-preset-5 text-neutral-200">
@@ -79,7 +79,7 @@ export function LiveMarkets() {
               </p>
             </div>
           </div>
-        </Carousel>
+        </Marquee>
       </div>
     </div>
   );

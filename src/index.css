@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@utility pause-animation {
+  animation-play-state: paused;
+}
+
 @font-face {
   font-family: "JetBrains Mono";
   font-style: normal;
@@ -116,4 +120,17 @@
   --radius-20: 20px;
   --radius-24: 24px;
   --radius-full: 999px;
+
+  /* Animations */
+  --animate-marquee: marquee 20s linear infinite;
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }

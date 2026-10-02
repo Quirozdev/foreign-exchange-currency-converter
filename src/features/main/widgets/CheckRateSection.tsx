@@ -3,7 +3,8 @@ import { AmountInput } from "../components/AmountInput";
 import { CurrencyButton } from "../components/CurrencyButton";
 import { ExchangeButton } from "../components/ExchangeButton";
 import { Button } from "@/shared/components/Button";
-import FilledStarIcon from "@/assets/images/icon-star-filled.svg";
+import { FilledStarIcon } from "../icons/FilledStarIcon";
+import { CheckIcon } from "../icons/CheckIcon";
 
 export function CheckRateSection() {
   const [sendValue, setSendValue] = useState<number>();
@@ -49,9 +50,16 @@ export function CheckRateSection() {
             1 USD = 0.8530 EUR
           </p>
           <div className="flex items-center justify-center gap-x-2">
-            <Button icon={FilledStarIcon} text="FAVORITE" />
+            <Button
+              icon={<FilledStarIcon />}
+              activeIcon={<FilledStarIcon />}
+              text="FAVORITE"
+              activeText="FAVORITED"
+            />
             <Button
               text="LOG CONVERSION"
+              activeIcon={<CheckIcon />}
+              activeText="Logged"
               className="outline-lime-500 hover:bg-lime-800 hover:outline-lime-500"
             />
           </div>

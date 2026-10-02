@@ -122,7 +122,7 @@
   --radius-full: 999px;
 
   /* Animations */
-  --animate-marquee: marquee 20s linear infinite;
+  --animate-marquee: marquee 12s linear infinite;
 
   @keyframes marquee {
     0% {
@@ -130,7 +130,7 @@
     }
 
     100% {
-      transform: translateX(-50%);
+      transform: translateX(-25%);
     }
   }
 }

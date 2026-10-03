@@ -24,6 +24,37 @@ export function CurrencyPicker({
   const popularCurrencies = currencies.filter((currency) => currency.popular);
   const otherCurrencies = currencies.filter((currency) => !currency.popular);
 
+  const selectAdjacentCurrency = (direction: "up" | "down") => {
+    const element = containerRef.current?.querySelector(":focus");
+
+    // if the input is focused dont make arrows move selections
+    if (element && element.tagName === "INPUT") return;
+
+    const currentSelectedIndex = currencies.findIndex(
+      (currency) => currency.code === selectedCurrencyCode,
+    );
+
+    let adjacentElementIndex = currentSelectedIndex;
+
+    if (direction === "down") {
+      adjacentElementIndex = (adjacentElementIndex + 1) % currencies.length;
+    } else {
+      adjacentElementIndex = (adjacentElementIndex - 1) % currencies.length;
+      if (adjacentElementIndex < 0) {
+        adjacentElementIndex =
+          currencies.length - Math.abs(adjacentElementIndex);
+      }
+    }
+
+    // because i put the id of each currency item as their code i can search by this
+    const adjacentCurrencyElement = containerRef.current?.querySelector(
+      `#${currencies[adjacentElementIndex].code}`,
+    ) as HTMLElement;
+
+    onCurrencyChange(currencies[adjacentElementIndex]);
+    adjacentCurrencyElement?.focus();
+  };
+
   useClickOutside({
     ref: containerRef,
     ignoreElements: [currencyButtonRef],
@@ -33,6 +64,16 @@ export function CurrencyPicker({
   useKeyDown({
     key: "Escape",
     onKeyDown: onHidePicker,
+  });
+
+  useKeyDown({
+    key: "ArrowDown",
+    onKeyDown: () => selectAdjacentCurrency("down"),
+  });
+
+  useKeyDown({
+    key: "ArrowUp",
+    onKeyDown: () => selectAdjacentCurrency("up"),
   });
 
   return (
@@ -55,6 +96,7 @@ export function CurrencyPicker({
                 currency={popularCurrency}
                 isSelected={popularCurrency.code === selectedCurrencyCode}
                 onPick={onCurrencyChange}
+                tabIndex={-1}
               />
             );
           })}
@@ -74,6 +116,7 @@ export function CurrencyPicker({
                 currency={otherCurrency}
                 isSelected={otherCurrency.code === selectedCurrencyCode}
                 onPick={onCurrencyChange}
+                tabIndex={-1}
               />
             );
           })}

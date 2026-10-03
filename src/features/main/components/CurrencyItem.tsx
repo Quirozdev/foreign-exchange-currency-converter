@@ -1,18 +1,24 @@
 import type { Currency } from "../model/currencies.types";
 import CheckIcon from "@/assets/images/icon-check.svg";
 
-interface Props {
+interface Props extends React.ComponentPropsWithRef<"button"> {
   currency: Currency;
   isSelected: boolean;
-  onSelect: (currency: Currency) => void;
+  onPick: (currency: Currency) => void;
 }
 
-export function CurrencyItem({ currency, isSelected, onSelect }: Props) {
+export function CurrencyItem({
+  currency,
+  isSelected,
+  onPick,
+  ...props
+}: Props) {
   return (
     <button
       key={currency.code}
       className="rounded-4 flex items-center gap-x-3 border border-neutral-600 bg-neutral-600 px-2 py-3 outline-none hover:border-neutral-200 focus:border-lime-500"
-      onClick={() => onSelect(currency)}
+      onClick={() => onPick(currency)}
+      {...props}
     >
       <img
         src={currency.icon}

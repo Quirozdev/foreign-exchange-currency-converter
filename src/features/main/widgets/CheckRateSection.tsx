@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AmountInput } from "../components/AmountInput";
-import { CurrencyButton } from "../components/CurrencyButton";
+import { CurrencyPicker } from "../components/CurrencyPicker";
 import { ExchangeButton } from "../components/ExchangeButton";
 import { Button } from "@/shared/components/Button";
 import { FilledStarIcon } from "../icons/FilledStarIcon";
@@ -27,7 +27,7 @@ export function CheckRateSection() {
                 value={sendValue}
                 onChange={(e) => setSendValue(Number(e.target.value))}
               />
-              <CurrencyButton selectedCurrencyCode={sendCurrency} />
+              <CurrencyPicker selectedCurrencyCode={sendCurrency} />
             </div>
           </div>
 
@@ -41,7 +41,7 @@ export function CheckRateSection() {
                 className="border-none text-lime-500"
                 disabled
               />
-              <CurrencyButton selectedCurrencyCode={receiveCurrency} />
+              <CurrencyPicker selectedCurrencyCode={receiveCurrency} />
             </div>
           </div>
         </div>

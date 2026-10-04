@@ -5,6 +5,7 @@ import { useRef, useState, type RefObject } from "react";
 import { useClickOutside } from "@/shared/hooks/use-click-outside";
 import { useKeyDown } from "@/shared/hooks/use-key-down";
 import { currenciesMetadata } from "../model/currencies.constants";
+import { getCurrencyMetadataWithDefaults } from "../utils/currency-metadata";
 
 interface Props {
   currencies: Currency[];
@@ -27,11 +28,22 @@ export function CurrencyPicker({
 
   const lowerCaseSearchQuery = searchQuery.toLowerCase();
 
-  const filteredCurrencies = currencies.filter(
-    (currency) =>
-      currency.name.toLowerCase().includes(lowerCaseSearchQuery) ||
-      currency.iso_code.toLowerCase().includes(lowerCaseSearchQuery),
-  );
+  const filteredCurrencies = currencies
+    .filter(
+      (currency) =>
+        currency.name.toLowerCase().includes(lowerCaseSearchQuery) ||
+        currency.iso_code.toLowerCase().includes(lowerCaseSearchQuery),
+    )
+    .sort((a, b) => {
+      const aPopularity = getCurrencyMetadataWithDefaults(a.iso_code).popular;
+      const bPopularity = getCurrencyMetadataWithDefaults(b.iso_code).popular;
+      if (aPopularity === true && bPopularity === false) {
+        return -1;
+      } else if (aPopularity === false && bPopularity === true) {
+        return 1;
+      }
+      return 0;
+    });
   const popularCurrencies = filteredCurrencies.filter(
     (currency) => currenciesMetadata[currency.iso_code]?.popular,
   );
@@ -51,6 +63,7 @@ export function CurrencyPicker({
       const currencyElement = containerRef.current?.querySelector(
         `#${filteredCurrencies[index].iso_code}`,
       ) as HTMLElement;
+
       onCurrencyChange(filteredCurrencies[index]);
       currencyElement?.focus();
       return;

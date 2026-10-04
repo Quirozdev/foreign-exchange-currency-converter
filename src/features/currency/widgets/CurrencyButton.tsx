@@ -3,7 +3,7 @@ import type { Currency } from "../model/currencies.types";
 import { useCallback, useRef, useState } from "react";
 import { CurrencyPicker } from "./CurrencyPicker";
 import { useGetCurrencies } from "../hooks/use-get-currencies";
-import { getCurrencyFlagSrc } from "../utils/get-currency-flag-src";
+import { getCurrencyMetadataWithDefaults } from "../utils/currency-metadata";
 import { LoadingSpinner } from "@/shared/components/LoadingSpinner";
 import { cn } from "@/shared/lib/cn";
 
@@ -45,7 +45,9 @@ export function CurrencyButton({
         {!isLoading ? (
           <>
             <img
-              src={getCurrencyFlagSrc(selectedCurrency.iso_code)}
+              src={
+                getCurrencyMetadataWithDefaults(selectedCurrency.iso_code).icon
+              }
               className="h-5 w-5 rounded-full"
             />
             <p className="text-preset-4 text-neutral-50">

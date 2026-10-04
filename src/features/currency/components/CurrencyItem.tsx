@@ -1,6 +1,6 @@
 import type { Currency } from "../model/currencies.types";
 import CheckIcon from "@/assets/images/icon-check.svg";
-import { getCurrencyFlagSrc } from "../utils/get-currency-flag-src";
+import { getCurrencyMetadataWithDefaults } from "../utils/currency-metadata";
 
 interface Props extends React.ComponentPropsWithRef<"button"> {
   currency: Currency;
@@ -22,7 +22,7 @@ export function CurrencyItem({
       {...props}
     >
       <img
-        src={getCurrencyFlagSrc(currency.iso_code)}
+        src={getCurrencyMetadataWithDefaults(currency.iso_code).icon}
         alt={currency.name}
         className="h-5 w-5 rounded-full"
       />

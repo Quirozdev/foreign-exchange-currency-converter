@@ -1,12 +1,13 @@
-import { currencies } from "../model/currencies.constants";
 import { SearchInput } from "../components/SearchInput";
 import { CurrencyItem } from "../components/CurrencyItem";
 import type { Currency } from "../model/currencies.types";
 import { useRef, useState, type RefObject } from "react";
 import { useClickOutside } from "@/shared/hooks/use-click-outside";
 import { useKeyDown } from "@/shared/hooks/use-key-down";
+import { currenciesMetadata } from "../model/currencies.constants";
 
 interface Props {
+  currencies: Currency[];
   selectedCurrencyCode: string;
   onCurrencyChange: (currency: Currency) => void;
   onHidePicker: () => void;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function CurrencyPicker({
+  currencies,
   selectedCurrencyCode,
   onCurrencyChange,
   onHidePicker,
@@ -28,13 +30,13 @@ export function CurrencyPicker({
   const filteredCurrencies = currencies.filter(
     (currency) =>
       currency.name.toLowerCase().includes(lowerCaseSearchQuery) ||
-      currency.code.toLowerCase().includes(lowerCaseSearchQuery),
+      currency.iso_code.toLowerCase().includes(lowerCaseSearchQuery),
   );
   const popularCurrencies = filteredCurrencies.filter(
-    (currency) => currency.popular,
+    (currency) => currenciesMetadata[currency.iso_code]?.popular,
   );
   const otherCurrencies = filteredCurrencies.filter(
-    (currency) => !currency.popular,
+    (currency) => !currenciesMetadata[currency.iso_code]?.popular,
   );
 
   const selectAdjacentCurrency = (direction: "up" | "down") => {
@@ -47,7 +49,7 @@ export function CurrencyPicker({
       const index = direction === "down" ? 0 : filteredCurrencies.length - 1;
 
       const currencyElement = containerRef.current?.querySelector(
-        `#${filteredCurrencies[index].code}`,
+        `#${filteredCurrencies[index].iso_code}`,
       ) as HTMLElement;
       onCurrencyChange(filteredCurrencies[index]);
       currencyElement?.focus();
@@ -55,7 +57,7 @@ export function CurrencyPicker({
     }
 
     const currentSelectedIndex = filteredCurrencies.findIndex(
-      (currency) => currency.code === selectedCurrencyCode,
+      (currency) => currency.iso_code === selectedCurrencyCode,
     );
 
     let adjacentElementIndex = currentSelectedIndex;
@@ -74,7 +76,7 @@ export function CurrencyPicker({
 
     // because i put the id of each currency item as their code i can search by this
     const adjacentCurrencyElement = containerRef.current?.querySelector(
-      `#${filteredCurrencies[adjacentElementIndex].code}`,
+      `#${filteredCurrencies[adjacentElementIndex].iso_code}`,
     ) as HTMLElement;
 
     onCurrencyChange(filteredCurrencies[adjacentElementIndex]);
@@ -102,16 +104,6 @@ export function CurrencyPicker({
     onKeyDown: () => selectAdjacentCurrency("up"),
   });
 
-  // useKeyDown({
-  //   key: "Enter",
-  //   onKeyDown: (e) => {
-  //     const element = e.target as HTMLElement;
-  //     if (element.tagName == "BUTTON") {
-  //       onHidePicker();
-  //     }
-  //   },
-  // });
-
   return (
     <div
       ref={containerRef}
@@ -136,10 +128,10 @@ export function CurrencyPicker({
           {popularCurrencies.map((popularCurrency) => {
             return (
               <CurrencyItem
-                id={popularCurrency.code}
-                key={popularCurrency.code}
+                id={popularCurrency.iso_code}
+                key={popularCurrency.iso_code}
                 currency={popularCurrency}
-                isSelected={popularCurrency.code === selectedCurrencyCode}
+                isSelected={popularCurrency.iso_code === selectedCurrencyCode}
                 onPick={(currency) => {
                   onCurrencyChange(currency);
                   onHidePicker();
@@ -163,10 +155,10 @@ export function CurrencyPicker({
           {otherCurrencies.map((otherCurrency) => {
             return (
               <CurrencyItem
-                id={otherCurrency.code}
-                key={otherCurrency.code}
+                id={otherCurrency.iso_code}
+                key={otherCurrency.iso_code}
                 currency={otherCurrency}
-                isSelected={otherCurrency.code === selectedCurrencyCode}
+                isSelected={otherCurrency.iso_code === selectedCurrencyCode}
                 onPick={(currency) => {
                   onCurrencyChange(currency);
                   onHidePicker();

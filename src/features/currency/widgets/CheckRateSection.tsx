@@ -29,7 +29,9 @@ export function CheckRateSection() {
               />
               <CurrencyButton
                 selectedCurrencyCode={sendCurrency}
-                onCurrencyChange={(currency) => setSendCurrency(currency.code)}
+                onCurrencyChange={(currency) =>
+                  setSendCurrency(currency.iso_code)
+                }
               />
             </div>
           </div>
@@ -47,7 +49,7 @@ export function CheckRateSection() {
               <CurrencyButton
                 selectedCurrencyCode={receiveCurrency}
                 onCurrencyChange={(currency) =>
-                  setReceiveCurrency(currency.code)
+                  setReceiveCurrency(currency.iso_code)
                 }
               />
             </div>

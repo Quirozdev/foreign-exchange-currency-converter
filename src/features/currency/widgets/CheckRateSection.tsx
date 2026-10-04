@@ -5,13 +5,23 @@ import { Button } from "@/shared/components/Button";
 import { FilledStarIcon } from "../icons/FilledStarIcon";
 import { CheckIcon } from "../icons/CheckIcon";
 import { CurrencyButton } from "./CurrencyButton";
+import { useGetRateBetweenCurrencies } from "../hooks/use-get-rate-between-currencies";
+import { convert } from "../lib/currency";
 
 export function CheckRateSection() {
-  const [sendValue, setSendValue] = useState<number>();
+  const [sendValue, setSendValue] = useState<string>("");
   const [sendCurrency, setSendCurrency] = useState<string>("USD");
   const [receiveCurrency, setReceiveCurrency] = useState<string>("EUR");
 
-  const receiveValue = 0;
+  const { isLoading, data } = useGetRateBetweenCurrencies({
+    baseCurrencyCode: sendCurrency,
+    quoteCurrencyCode: receiveCurrency,
+  });
+
+  function handleExchangeCurrencies() {
+    setSendCurrency(receiveCurrency);
+    setReceiveCurrency(sendCurrency);
+  }
 
   return (
     <section className="flex flex-col gap-y-4">
@@ -25,7 +35,7 @@ export function CheckRateSection() {
             <div className="flex items-center justify-between gap-x-16">
               <AmountInput
                 value={sendValue}
-                onChange={(e) => setSendValue(Number(e.target.value))}
+                onChange={(e) => setSendValue(e.target.value)}
               />
               <CurrencyButton
                 selectedCurrencyCode={sendCurrency}
@@ -36,16 +46,23 @@ export function CheckRateSection() {
             </div>
           </div>
 
-          <ExchangeButton />
+          <ExchangeButton onClick={handleExchangeCurrencies} />
 
           <div className="rounded-16 flex flex-1 flex-col gap-y-5 border border-neutral-500 bg-neutral-600 p-4 md:p-5">
             <p className="text-preset-4 text-neutral-100 uppercase">Receive</p>
             <div className="flex items-center justify-between gap-x-16">
-              <AmountInput
-                value={receiveValue}
-                className="border-none text-lime-500"
-                disabled
-              />
+              {isLoading ? (
+                <div className="rounded-4 h-11 w-full animate-pulse bg-neutral-500"></div>
+              ) : (
+                <AmountInput
+                  value={
+                    sendValue ? convert(Number(sendValue), data?.rate) : ""
+                  }
+                  className="border-none text-lime-500"
+                  disabled
+                />
+              )}
+
               <CurrencyButton
                 selectedCurrencyCode={receiveCurrency}
                 onCurrencyChange={(currency) =>
@@ -56,9 +73,14 @@ export function CheckRateSection() {
           </div>
         </div>
         <div className="flex flex-col justify-center gap-y-4 border-t border-dashed border-neutral-500 p-4 md:flex-row md:items-center md:justify-between md:px-5">
-          <p className="text-preset-6 text-center text-neutral-50">
-            1 USD = 0.8530 EUR
-          </p>
+          {isLoading ? (
+            <div className="rounded-4 h-2.5 w-32 animate-pulse bg-neutral-500"></div>
+          ) : (
+            <p className="text-preset-6 text-center text-neutral-50">
+              1 {sendCurrency} = {convert(1, data?.rate, 4)} {receiveCurrency}
+            </p>
+          )}
+
           <div className="flex items-center justify-center gap-x-2">
             <Button
               icon={<FilledStarIcon />}

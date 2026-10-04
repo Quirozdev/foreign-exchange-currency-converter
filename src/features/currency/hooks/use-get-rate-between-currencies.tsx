@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import type { Rate } from "../model/currencies.types";
 import { getRateBetweenCurrencies } from "../services/get-rate-between-currencies";
+import { useFetch } from "@/shared/hooks/use-fetch";
 
 interface Props {
   baseCurrencyCode: string;
@@ -11,28 +10,12 @@ export function useGetRateBetweenCurrencies({
   baseCurrencyCode,
   quoteCurrencyCode,
 }: Props) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, setData] = useState<Rate | null>(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      try {
-        const data = await getRateBetweenCurrencies(
-          baseCurrencyCode,
-          quoteCurrencyCode,
-        );
-        setData(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  }, [baseCurrencyCode, quoteCurrencyCode]);
+  const { isLoading, data, error } = useFetch({
+    queryFn: async () => {
+      return getRateBetweenCurrencies(baseCurrencyCode, quoteCurrencyCode);
+    },
+    queryKey: ["rate-between-currencies", baseCurrencyCode, quoteCurrencyCode],
+  });
 
   return { isLoading, data, error };
 }

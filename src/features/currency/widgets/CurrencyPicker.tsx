@@ -137,7 +137,7 @@ export function CurrencyPicker({
             </p>
           </div>
         )}
-        <div className="flex flex-col">
+        <div className="flex max-h-60 scrollbar-thin scrollbar-thumb-neutral-200 flex-col overflow-y-auto">
           {popularCurrencies.map((popularCurrency) => {
             return (
               <CurrencyItem
@@ -164,7 +164,7 @@ export function CurrencyPicker({
             </p>
           </div>
         )}
-        <div className="flex flex-col">
+        <div className="flex max-h-60 scrollbar-thin scrollbar-thumb-neutral-200 flex-col overflow-y-auto">
           {otherCurrencies.map((otherCurrency) => {
             return (
               <CurrencyItem

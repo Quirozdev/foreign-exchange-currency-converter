@@ -13,7 +13,7 @@ export function Tab({ label, count, isActive, onSelect }: Props) {
       role="tab"
       aria-selected={isActive}
       className={cn(
-        "flex cursor-pointer items-center justify-center gap-x-2 border-b border-transparent px-4 py-2.5",
+        "focus:rounded-4 flex cursor-pointer items-center justify-between gap-x-2 border-b border-transparent px-4 py-2.5 outline-none focus:shadow-[0_0_0_2px_var(--color-neutral-900),0_0_0_4px_var(--color-lime-500)] md:justify-center",
         isActive && "border-lime-500",
       )}
       onClick={onSelect}

@@ -6,8 +6,12 @@ import { useKeyDown } from "../hooks/use-key-down";
 import { useClickOutside } from "../hooks/use-click-outside";
 import { cn } from "../lib/cn";
 
-export function Tabs() {
-  const [activeTab, setActiveTab] = useState(tabs[0].value);
+interface Props {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+export function Tabs({ activeTab, onTabChange }: Props) {
   const [isMobileTabsOpen, setIsMobileTabsOpen] = useState(false);
 
   const mobileContainerRef = useRef<HTMLDivElement>(null);
@@ -41,7 +45,7 @@ export function Tabs() {
               label={tab.label}
               count={tab.count}
               isActive={activeTab === tab.value}
-              onSelect={() => setActiveTab(tab.value)}
+              onSelect={() => onTabChange(tab.value)}
             />
           );
         })}
@@ -70,7 +74,7 @@ export function Tabs() {
                   count={tab.count}
                   isActive={activeTab === tab.value}
                   onSelect={() => {
-                    setActiveTab(tab.value);
+                    onTabChange(tab.value);
                     setIsMobileTabsOpen(false);
                   }}
                 />

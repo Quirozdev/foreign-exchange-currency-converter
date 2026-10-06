@@ -5,9 +5,10 @@ import { FavoritesSection } from "./FavoritesSection";
 import { HistorySection } from "./HistorySection";
 import { LogSection } from "./LogSection";
 import { tabs } from "@/shared/model/tabs.constants";
+import type { TabValue } from "@/shared/model/tabs.types";
 
 export function FeaturesSection() {
-  const [activeTab, setActiveTab] = useState(tabs[0].value);
+  const [activeTab, setActiveTab] = useState<TabValue>(tabs[0].value);
 
   return (
     <div className="flex flex-col gap-y-4 md:gap-y-5">

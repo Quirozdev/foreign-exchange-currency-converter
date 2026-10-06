@@ -1,4 +1,6 @@
-export const intervals = [
+import type { Interval } from "./intervals.types";
+
+export const intervals: { label: string; value: Interval }[] = [
   {
     label: "1D",
     value: "1-day",
@@ -23,4 +25,4 @@ export const intervals = [
     label: "5Y",
     value: "5-years",
   },
-];
+] as const;

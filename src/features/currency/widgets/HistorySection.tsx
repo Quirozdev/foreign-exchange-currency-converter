@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { HistoryIntervalPicker } from "../components/HistoryIntervalPicker";
 import { intervals } from "@/shared/model/intervals.constants";
+import type { Interval } from "@/shared/model/intervals.types";
 
 export function HistorySection() {
-  const [selectedInterval, setSelectedInterval] = useState(intervals[2].value);
+  const [selectedInterval, setSelectedInterval] = useState<Interval>(
+    intervals[2].value,
+  );
 
   return (
     <section className="flex flex-col gap-y-4 md:gap-y-5">

@@ -5,10 +5,11 @@ import ChevronDownIcon from "@/assets/images/icon-chevron-down.svg";
 import { useKeyDown } from "../hooks/use-key-down";
 import { useClickOutside } from "../hooks/use-click-outside";
 import { cn } from "../lib/cn";
+import type { TabValue } from "../model/tabs.types";
 
 interface Props {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  activeTab: TabValue;
+  onTabChange: (tab: TabValue) => void;
 }
 
 export function Tabs({ activeTab, onTabChange }: Props) {

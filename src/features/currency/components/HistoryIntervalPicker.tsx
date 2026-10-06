@@ -1,9 +1,10 @@
 import { cn } from "@/shared/lib/cn";
 import { intervals } from "@/shared/model/intervals.constants";
+import type { Interval } from "@/shared/model/intervals.types";
 
 interface Props {
-  selectedInterval: string;
-  onSelect: (interval: string) => void;
+  selectedInterval: Interval;
+  onSelect: (interval: Interval) => void;
 }
 
 export function HistoryIntervalPicker({ selectedInterval, onSelect }: Props) {

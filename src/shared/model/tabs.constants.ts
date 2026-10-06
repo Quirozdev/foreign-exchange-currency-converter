@@ -1,11 +1,13 @@
-export const tabs = [
+import type { TabValue } from "./tabs.types";
+
+export const tabs: { label: string; value: TabValue; count?: number }[] = [
   {
     label: "History",
     value: "history",
   },
   {
     label: "Compare",
-    value: "Compare",
+    value: "compare",
   },
   {
     label: "Favorites",
@@ -17,4 +19,4 @@ export const tabs = [
     value: "log",
     count: 8,
   },
-];
+] as const;

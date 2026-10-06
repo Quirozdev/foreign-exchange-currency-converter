@@ -7,6 +7,7 @@ import { CheckIcon } from "../icons/CheckIcon";
 import { CurrencyButton } from "./CurrencyButton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rate-between-currencies";
 import { convert } from "../lib/currency";
+import type { Rate } from "../model/currencies.types";
 
 export function CheckRateSection() {
   const [sendValue, setSendValue] = useState<string>("");
@@ -56,7 +57,9 @@ export function CheckRateSection() {
               ) : (
                 <AmountInput
                   value={
-                    sendValue ? convert(Number(sendValue), data?.rate) : ""
+                    sendValue
+                      ? convert(Number(sendValue), (data as Rate).rate)
+                      : ""
                   }
                   className="border-none text-lime-500"
                   disabled
@@ -77,7 +80,8 @@ export function CheckRateSection() {
             <div className="rounded-4 h-2.5 w-32 animate-pulse bg-neutral-500"></div>
           ) : (
             <p className="text-preset-6 text-center text-neutral-50">
-              1 {sendCurrency} = {convert(1, data?.rate, 4)} {receiveCurrency}
+              1 {sendCurrency} = {convert(1, (data as Rate).rate, 4)}{" "}
+              {receiveCurrency}
             </p>
           )}
 

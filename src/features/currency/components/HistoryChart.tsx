@@ -9,12 +9,19 @@ import {
 } from "recharts";
 import type { Rate } from "../model/currencies.types";
 import { formatIsoStringToLongDateString } from "@/shared/lib/dates";
+import { HistoryChartTooltip } from "./HistoryChartTooltip";
 
 interface Props {
   ratesHistory: Rate[];
+  sendCurrency: string;
+  receiveCurrency: string;
 }
 
-export function HistoryChart({ ratesHistory }: Props) {
+export function HistoryChart({
+  ratesHistory,
+  sendCurrency,
+  receiveCurrency,
+}: Props) {
   const transformedData = ratesHistory.map(({ date, rate }) => {
     return {
       date: formatIsoStringToLongDateString(date),
@@ -56,7 +63,15 @@ export function HistoryChart({ ratesHistory }: Props) {
         />
         <XAxis dataKey="date" tickLine={false} minTickGap={40} />
         <YAxis width={75} domain={["dataMin", "dataMax"]} tickLine={false} />
-        {/* <Tooltip /> */}
+        <Tooltip
+          content={(tooltipContentProps) => (
+            <HistoryChartTooltip
+              {...tooltipContentProps}
+              sendCurrency={sendCurrency}
+              receiveCurrency={receiveCurrency}
+            />
+          )}
+        />
         <Area
           type="linear"
           dataKey="rate"

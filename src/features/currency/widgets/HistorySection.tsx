@@ -23,7 +23,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
   });
 
   return (
-    <section className="flex flex-col gap-y-4 md:gap-y-5">
+    <section className="flex flex-col gap-y-4 overflow-hidden md:gap-y-5">
       <div className="flex flex-col gap-y-5 xl:flex-row xl:items-center">
         <div className="grid flex-1 grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2.5 md:gap-4">
           <div className="rounded-16 flex flex-col gap-y-4 border border-neutral-600 bg-neutral-700 px-5 py-3">
@@ -64,7 +64,15 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
           </p>
         </div>
 
-        {isLoading ? <></> : <HistoryChart ratesHistory={data} />}
+        {isLoading ? (
+          <></>
+        ) : (
+          <HistoryChart
+            ratesHistory={data}
+            sendCurrency={sendCurrency}
+            receiveCurrency={receiveCurrency}
+          />
+        )}
       </div>
     </section>
   );

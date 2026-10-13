@@ -21,7 +21,6 @@ export function extractDateComponentsFromIsoStringDateWithoutTime(
 }
 
 export function formatIsoStringToLongDateString(date: string) {
-  console.log(date);
   const { month, day } =
     extractDateComponentsFromIsoStringDateWithoutTime(date);
   const parsedMonth = MONTHS[month];

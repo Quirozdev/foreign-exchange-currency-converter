@@ -2,11 +2,25 @@ import { useState } from "react";
 import { HistoryIntervalPicker } from "../components/HistoryIntervalPicker";
 import { intervals } from "@/shared/model/intervals.constants";
 import type { Interval } from "@/shared/model/intervals.types";
+import { HistoryChart } from "../components/HistoryChart";
+import { useGetRateBetweenDates } from "../hooks/use-get-rate-between-dates";
 
-export function HistorySection() {
+interface Props {
+  sendCurrency: string;
+  receiveCurrency: string;
+}
+
+export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
   const [selectedInterval, setSelectedInterval] = useState<Interval>(
     intervals[2].value,
   );
+
+  const { isLoading, data } = useGetRateBetweenDates({
+    baseCurrencyCode: sendCurrency,
+    quoteCurrencyCode: receiveCurrency,
+    from: "2026-09-12",
+    to: "2026-10-12",
+  });
 
   return (
     <section className="flex flex-col gap-y-4 md:gap-y-5">
@@ -41,6 +55,16 @@ export function HistorySection() {
           selectedInterval={selectedInterval}
           onSelect={setSelectedInterval}
         />
+      </div>
+      <div className="rounded-16 flex flex-col gap-y-5 border border-neutral-600 bg-neutral-700 px-3 py-4 md:p-5">
+        <div className="flex items-center justify-between">
+          <p className="text-preset-3-medium text-neutral-50">USD/EUR</p>
+          <p className="text-preset-5 text-neutral-50">
+            0.8530 · MAY 14 16:00 CET
+          </p>
+        </div>
+
+        {isLoading ? <></> : <HistoryChart ratesHistory={data} />}
       </div>
     </section>
   );

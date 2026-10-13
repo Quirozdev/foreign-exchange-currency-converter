@@ -9,10 +9,20 @@ import { useGetRateBetweenCurrencies } from "../hooks/use-get-rate-between-curre
 import { convert } from "../lib/currency";
 import type { Rate } from "../model/currencies.types";
 
-export function CheckRateSection() {
+interface Props {
+  sendCurrency: string;
+  onSendCurrencyChange: (currency: string) => void;
+  receiveCurrency: string;
+  onReceiveCurrencyChange: (currency: string) => void;
+}
+
+export function CheckRateSection({
+  sendCurrency,
+  onSendCurrencyChange,
+  receiveCurrency,
+  onReceiveCurrencyChange,
+}: Props) {
   const [sendValue, setSendValue] = useState<string>("");
-  const [sendCurrency, setSendCurrency] = useState<string>("USD");
-  const [receiveCurrency, setReceiveCurrency] = useState<string>("EUR");
 
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
@@ -20,8 +30,8 @@ export function CheckRateSection() {
   });
 
   function handleExchangeCurrencies() {
-    setSendCurrency(receiveCurrency);
-    setReceiveCurrency(sendCurrency);
+    onSendCurrencyChange(receiveCurrency);
+    onReceiveCurrencyChange(sendCurrency);
   }
 
   return (
@@ -41,7 +51,7 @@ export function CheckRateSection() {
               <CurrencyButton
                 selectedCurrencyCode={sendCurrency}
                 onCurrencyChange={(currency) =>
-                  setSendCurrency(currency.iso_code)
+                  onSendCurrencyChange(currency.iso_code)
                 }
               />
             </div>
@@ -69,7 +79,7 @@ export function CheckRateSection() {
               <CurrencyButton
                 selectedCurrencyCode={receiveCurrency}
                 onCurrencyChange={(currency) =>
-                  setReceiveCurrency(currency.iso_code)
+                  onReceiveCurrencyChange(currency.iso_code)
                 }
               />
             </div>

@@ -8,6 +8,7 @@ import { CurrencyButton } from "./CurrencyButton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rate-between-currencies";
 import { convert } from "../lib/currency";
 import type { Rate } from "../model/currencies.types";
+import { Skeleton } from "@/shared/components/Skeleton";
 
 interface Props {
   sendCurrency: string;
@@ -63,7 +64,7 @@ export function CheckRateSection({
             <p className="text-preset-4 text-neutral-100 uppercase">Receive</p>
             <div className="flex items-center justify-between gap-x-16">
               {isLoading ? (
-                <div className="rounded-4 h-11 w-full animate-pulse bg-neutral-500"></div>
+                <Skeleton />
               ) : (
                 <AmountInput
                   value={
@@ -87,7 +88,7 @@ export function CheckRateSection({
         </div>
         <div className="flex flex-col justify-center gap-y-4 border-t border-dashed border-neutral-500 p-4 md:flex-row md:items-center md:justify-between md:px-5">
           {isLoading ? (
-            <div className="rounded-4 h-2.5 w-32 animate-pulse bg-neutral-500"></div>
+            <Skeleton className="h-2.5 w-32" />
           ) : (
             <p className="text-preset-6 text-center text-neutral-50">
               1 {sendCurrency} = {convert(1, (data as Rate).rate, 4)}{" "}

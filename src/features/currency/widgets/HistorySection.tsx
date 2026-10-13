@@ -9,6 +9,7 @@ import {
   subtractFromDate,
 } from "@/shared/lib/dates";
 import type { DateParams } from "@/shared/model/dates.types";
+import { Skeleton } from "@/shared/components/Skeleton";
 
 interface Props {
   sendCurrency: string;
@@ -83,7 +84,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
         </div>
 
         {isLoading ? (
-          <></>
+          <Skeleton className="h-75" />
         ) : (
           <HistoryChart
             ratesHistory={data}

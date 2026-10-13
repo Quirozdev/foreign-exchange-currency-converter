@@ -1,17 +1,5 @@
-export const MONTHS: Record<number, string> = {
-  0: "Jan",
-  1: "Feb",
-  2: "Mar",
-  3: "Apr",
-  4: "May",
-  5: "Jun",
-  6: "Jul",
-  7: "Aug",
-  8: "Sept",
-  9: "Oct",
-  10: "Nov",
-  11: "Dec",
-};
+import { MONTHS } from "../model/dates.constants";
+import type { DateParams } from "../model/dates.types";
 
 export function extractDateComponentsFromIsoStringDateWithoutTime(
   date: string,
@@ -20,10 +8,46 @@ export function extractDateComponentsFromIsoStringDateWithoutTime(
   return { year: Number(year), month: Number(month) - 1, day: Number(day) };
 }
 
-export function formatIsoStringToLongDateString(date: string) {
-  const { month, day } =
+export function formatIsoStringToLongDateString(
+  date: string,
+  withYear: boolean = false,
+) {
+  const { year, month, day } =
     extractDateComponentsFromIsoStringDateWithoutTime(date);
   const parsedMonth = MONTHS[month];
   const parsedDay = day < 9 ? `0${day}` : day;
+  if (withYear) {
+    return `${parsedMonth} ${parsedDay}, ${year}`;
+  }
   return `${parsedMonth} ${parsedDay}`;
+}
+
+export function formatDateToIsoStringWithoutTime(date: Date) {
+  let day: number | string = date.getDate();
+  let month: number | string = date.getMonth() + 1;
+  const year = date.getFullYear();
+  if (day < 10) {
+    day = "0" + day;
+  }
+  if (month < 10) {
+    month = "0" + month;
+  }
+  return `${year}-${month}-${day}`;
+}
+
+export function subtractFromDate(
+  date: Date,
+  { years, months, days }: Partial<DateParams>,
+) {
+  const result = new Date(date);
+  if (years) {
+    result.setFullYear(result.getFullYear() - years);
+  }
+  if (months) {
+    result.setMonth(result.getMonth() - months);
+  }
+  if (days) {
+    result.setDate(result.getDate() - days);
+  }
+  return result;
 }

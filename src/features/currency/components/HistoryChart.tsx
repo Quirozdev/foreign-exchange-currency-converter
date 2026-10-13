@@ -8,7 +8,10 @@ import {
   YAxis,
 } from "recharts";
 import type { Rate } from "../model/currencies.types";
-import { formatIsoStringToLongDateString } from "@/shared/lib/dates";
+import {
+  extractDateComponentsFromIsoStringDateWithoutTime,
+  formatIsoStringToLongDateString,
+} from "@/shared/lib/dates";
 import { HistoryChartTooltip } from "./HistoryChartTooltip";
 
 interface Props {
@@ -22,9 +25,17 @@ export function HistoryChart({
   sendCurrency,
   receiveCurrency,
 }: Props) {
+  const isDifferenceMoreThanAYear =
+    ratesHistory.length > 0 &&
+    extractDateComponentsFromIsoStringDateWithoutTime(ratesHistory[0].date)
+      .year !==
+      extractDateComponentsFromIsoStringDateWithoutTime(
+        ratesHistory[ratesHistory.length - 1].date,
+      ).year;
+
   const transformedData = ratesHistory.map(({ date, rate }) => {
     return {
-      date: formatIsoStringToLongDateString(date),
+      date: formatIsoStringToLongDateString(date, isDifferenceMoreThanAYear),
       rate: rate.toFixed(4),
     };
   });

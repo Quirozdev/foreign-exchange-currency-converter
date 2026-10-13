@@ -4,22 +4,40 @@ import { intervals } from "@/shared/model/intervals.constants";
 import type { Interval } from "@/shared/model/intervals.types";
 import { HistoryChart } from "../components/HistoryChart";
 import { useGetRateBetweenDates } from "../hooks/use-get-rate-between-dates";
+import {
+  formatDateToIsoStringWithoutTime,
+  subtractFromDate,
+} from "@/shared/lib/dates";
+import type { DateParams } from "@/shared/model/dates.types";
 
 interface Props {
   sendCurrency: string;
   receiveCurrency: string;
 }
 
+const mapping: Record<Interval, Partial<DateParams>> = {
+  "1-day": { days: 1 },
+  "1-week": { days: 7 },
+  "1-month": { months: 1 },
+  "3-months": { months: 3 },
+  "1-year": { years: 1 },
+  "5-years": { years: 5 },
+};
+
 export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
   const [selectedInterval, setSelectedInterval] = useState<Interval>(
     intervals[2].value,
   );
 
+  const to = new Date();
+
+  const from = subtractFromDate(to, mapping[selectedInterval]);
+
   const { isLoading, data } = useGetRateBetweenDates({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
-    from: "2026-09-12",
-    to: "2026-10-12",
+    from: formatDateToIsoStringWithoutTime(from),
+    to: formatDateToIsoStringWithoutTime(to),
   });
 
   return (
@@ -69,6 +87,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
         ) : (
           <HistoryChart
             ratesHistory={data}
+            interval={selectedInterval}
             sendCurrency={sendCurrency}
             receiveCurrency={receiveCurrency}
           />

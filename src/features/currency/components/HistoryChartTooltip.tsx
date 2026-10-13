@@ -14,12 +14,6 @@ export function HistoryChartTooltip({
   payload,
   label,
 }: Props) {
-  console.log({
-    label,
-    payloadDate: payload?.[0]?.payload?.date,
-    payloadRate: payload?.[0]?.payload?.rate,
-  });
-
   if (active && payload && payload.length) {
     const sendCurrencyMetadata = getCurrencyMetadataWithDefaults(sendCurrency);
     const receiveCurrencyMetadata =

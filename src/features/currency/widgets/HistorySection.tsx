@@ -10,6 +10,7 @@ import {
 } from "@/shared/lib/dates";
 import type { DateParams } from "@/shared/model/dates.types";
 import { Skeleton } from "@/shared/components/Skeleton";
+import { cn } from "@/shared/lib/cn";
 
 interface Props {
   sendCurrency: string;
@@ -41,6 +42,16 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
     to: formatDateToIsoStringWithoutTime(to),
   });
 
+  if (!data) return null;
+
+  const firstRate = Number(data[0].rate.toFixed(4));
+  const lastRate = Number(data[data.length - 1].rate.toFixed(4));
+  const change = Number((lastRate - firstRate).toFixed(4));
+  const changePercentage = (
+    ((lastRate - firstRate) / Math.abs(lastRate)) *
+    100
+  ).toFixed(2);
+
   return (
     <section className="flex flex-col gap-y-4 overflow-hidden md:gap-y-5">
       <div className="flex flex-col gap-y-5 xl:flex-row xl:items-center">
@@ -49,25 +60,41 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
             <p className="text-preset-4 text-neutral-50 uppercase opacity-70">
               Open
             </p>
-            <p className="text-preset-2 text-neutral-50">0.8516</p>
+            <p className="text-preset-2 text-neutral-50">{firstRate}</p>
           </div>
           <div className="rounded-16 flex flex-col gap-y-4 border border-neutral-600 bg-neutral-700 px-5 py-3">
             <p className="text-preset-4 text-neutral-50 uppercase opacity-70">
               Last
             </p>
-            <p className="text-preset-2 text-neutral-50">0.8530</p>
+            <p className="text-preset-2 text-neutral-50">{lastRate}</p>
           </div>
           <div className="rounded-16 flex flex-col gap-y-4 border border-neutral-600 bg-neutral-700 px-5 py-3">
             <p className="text-preset-4 text-neutral-50 uppercase opacity-70">
               Change
             </p>
-            <p className="text-preset-2 text-green-500">+0.0014</p>
+            <p
+              className={cn(
+                "text-preset-2",
+                change >= 0 ? "text-green-500" : "text-red-500",
+              )}
+            >
+              {change >= 0 ? "+" : undefined}
+              {change}
+            </p>
           </div>
           <div className="rounded-16 flex flex-col gap-y-4 border border-neutral-600 bg-neutral-700 px-5 py-3">
             <p className="text-preset-4 text-neutral-50 uppercase opacity-70">
               % Change
             </p>
-            <p className="text-preset-2 text-green-500">▲ +0.16%</p>
+            <p
+              className={cn(
+                "text-preset-2 text-green-500",
+                change >= 0 ? "text-green-500" : "text-red-500",
+              )}
+            >
+              {change >= 0 ? "▲" : "▼"} {change >= 0 ? "+" : undefined}
+              {changePercentage}%
+            </p>
           </div>
         </div>
         <HistoryIntervalPicker

@@ -1,6 +1,8 @@
 import { useGetRates } from "@/features/rates/hooks/use-get-rates";
 import { formatDateToIsoStringWithoutTime } from "@/shared/lib/dates";
 import { CurrencyComparison } from "../components/CurrencyComparison";
+import { CompareSectionSkeleton } from "../components/CompareSectionSkeleton";
+import { CompareSectionEmpty } from "../components/CompareSectionEmpty";
 
 interface Props {
   sendCurrency: string;
@@ -8,12 +10,29 @@ interface Props {
 }
 
 export function CompareSection({ sendCurrency, sendValue }: Props) {
-  const { isLoading, data: rates } = useGetRates({
+  const {
+    isLoading,
+    data: rates,
+    error,
+  } = useGetRates({
     baseCurrencyCode: sendCurrency,
     from: formatDateToIsoStringWithoutTime(new Date()),
+    to: formatDateToIsoStringWithoutTime(new Date()),
   });
 
-  if (isLoading || !rates) return null;
+  if (isLoading) {
+    return <CompareSectionSkeleton />;
+  }
+
+  if (
+    !sendValue ||
+    Number(sendValue) === 0 ||
+    error ||
+    !rates ||
+    rates.length === 0
+  ) {
+    return <CompareSectionEmpty />;
+  }
 
   return (
     <section className="rounded-16 flex flex-col gap-y-4 border border-neutral-600 bg-neutral-700 p-4 md:gap-y-5 md:p-5">
@@ -33,7 +52,11 @@ export function CompareSection({ sendCurrency, sendValue }: Props) {
       <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto pr-1">
         {rates.map((rateData) => {
           return (
-            <CurrencyComparison rateData={rateData} sendValue={sendValue} />
+            <CurrencyComparison
+              key={rateData.quote}
+              rateData={rateData}
+              sendValue={sendValue}
+            />
           );
         })}
       </div>

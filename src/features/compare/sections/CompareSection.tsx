@@ -34,6 +34,10 @@ export function CompareSection({ sendCurrency, sendValue }: Props) {
     return <CompareSectionEmpty />;
   }
 
+  const ratesWithoutOwnSendCurrency = rates.filter(
+    (rateData) => rateData.quote !== sendCurrency,
+  );
+
   return (
     <section className="rounded-16 flex flex-col gap-y-4 border border-neutral-600 bg-neutral-700 p-4 md:gap-y-5 md:p-5">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2.5">
@@ -46,11 +50,11 @@ export function CompareSection({ sendCurrency, sendValue }: Props) {
           </p>
         </div>
         <p className="text-preset-5 text-neutral-50 uppercase opacity-70">
-          {rates.length} pairs
+          {ratesWithoutOwnSendCurrency.length} pairs
         </p>
       </div>
       <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto pr-1">
-        {rates.map((rateData) => {
+        {ratesWithoutOwnSendCurrency.map((rateData) => {
           return (
             <CurrencyComparison
               key={rateData.quote}

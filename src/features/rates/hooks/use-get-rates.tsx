@@ -6,12 +6,16 @@ interface Props {
   quoteCurrencyCode?: string;
 }
 
-export function useGetRates({ baseCurrencyCode, quoteCurrencyCode }: Props) {
+export function useGetRates(props?: Props) {
   const { isLoading, data, error } = useFetch({
     queryFn: async () => {
-      return getRates(baseCurrencyCode, quoteCurrencyCode);
+      return getRates(props?.baseCurrencyCode, props?.quoteCurrencyCode);
     },
-    queryKey: ["rate-between-currencies", baseCurrencyCode, quoteCurrencyCode],
+    queryKey: [
+      "rate-between-currencies",
+      props?.baseCurrencyCode,
+      props?.quoteCurrencyCode,
+    ],
   });
 
   return { isLoading, data, error };

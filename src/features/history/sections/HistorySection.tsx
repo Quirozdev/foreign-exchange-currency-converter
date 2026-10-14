@@ -3,7 +3,6 @@ import { HistoryIntervalPicker } from "../components/HistoryIntervalPicker";
 import { intervals } from "@/shared/model/intervals.constants";
 import type { Interval } from "@/shared/model/intervals.types";
 import { HistoryChart } from "../components/HistoryChart";
-import { useGetRateBetweenDates } from "../hooks/use-get-rate-between-dates";
 import {
   extractDatePartsFromDate,
   formatDateToIsoStringWithoutTime,
@@ -14,6 +13,7 @@ import { HistoryCards } from "../components/HistoryCards";
 import { intervalToDateParamsMapping } from "@/shared/model/dates.constants";
 import { HistorySectionSkeleton } from "../components/HistorySectionSkeleton";
 import { HistorySectionEmpty } from "../components/HistorySectionEmpty";
+import { useGetRates } from "@/features/rates/hooks/use-get-rates";
 
 interface Props {
   sendCurrency: string;
@@ -32,7 +32,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
     intervalToDateParamsMapping[selectedInterval],
   );
 
-  const { isLoading, data, error } = useGetRateBetweenDates({
+  const { isLoading, data, error } = useGetRates({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
     from: formatDateToIsoStringWithoutTime(from),

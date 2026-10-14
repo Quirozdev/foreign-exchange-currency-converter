@@ -4,11 +4,18 @@ import type { Rate } from "../model/currencies.types";
 export async function getRates(
   baseCurrencyCode?: string,
   quoteCurrencyCode?: string,
-): Promise<Rate> {
-  const url = generateUrlWithOptions("https://api.frankfurter.dev/v2/rate", [
-    baseCurrencyCode,
-    quoteCurrencyCode,
-  ]);
+  from?: string,
+  to?: string,
+): Promise<Rate[]> {
+  const url = generateUrlWithOptions({
+    baseUrl: "https://api.frankfurter.dev/v2/rates",
+    queryParams: {
+      base: baseCurrencyCode,
+      quotes: quoteCurrencyCode,
+      from: from,
+      to: to,
+    },
+  });
 
   const response = await fetch(url);
 

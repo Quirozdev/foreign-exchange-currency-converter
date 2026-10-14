@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Tabs } from "../../../shared/widgets/Tabs";
-import { CompareSection } from "./CompareSection";
 import { FavoritesSection } from "./FavoritesSection";
 import { HistorySection } from "../../history/sections/HistorySection";
 import { LogSection } from "./LogSection";
 import { tabs } from "@/shared/model/tabs.constants";
 import type { TabValue } from "@/shared/model/tabs.types";
+import { CompareSection } from "@/features/compare/sections/CompareSection";
 
 interface Props {
   sendCurrency: string;

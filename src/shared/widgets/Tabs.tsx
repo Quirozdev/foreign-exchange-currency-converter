@@ -66,7 +66,7 @@ export function Tabs({ activeTab, onTabChange }: Props) {
           />
         </button>
         {isMobileTabsOpen && (
-          <div className="rounded-10 absolute mt-2 flex w-full flex-col border border-neutral-600 bg-neutral-700 p-2">
+          <div className="rounded-10 absolute z-10 mt-2 flex w-full flex-col border border-neutral-600 bg-neutral-700 p-2">
             {tabs.map((tab) => {
               return (
                 <Tab

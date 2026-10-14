@@ -1,4 +1,4 @@
-import type { Rate } from "../model/currencies.types";
+import type { Rate } from "../../currency/model/currencies.types";
 
 export async function getRatesBetweenDates(
   baseCurrencyCode: string,

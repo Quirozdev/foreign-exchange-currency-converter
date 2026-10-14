@@ -1,6 +1,6 @@
 import type { TooltipContentProps } from "recharts";
 import ArrowRightIcon from "@/assets/images/icon-arrow-right.svg";
-import { getCurrencyMetadataWithDefaults } from "../utils/currency-metadata";
+import { getCurrencyMetadataWithDefaults } from "@/features/currency/utils/currency-metadata";
 
 interface Props extends TooltipContentProps {
   sendCurrency: string;

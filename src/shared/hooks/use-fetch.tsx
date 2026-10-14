@@ -15,6 +15,7 @@ export function useFetch<T>({ queryFn, queryKey }: Props<T>) {
   useEffect(() => {
     async function fetchFn() {
       setIsLoading(true);
+      setData(null);
       setError(null);
       try {
         const data = await queryFn();

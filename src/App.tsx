@@ -1,4 +1,4 @@
-import { MainPage } from "./features/currency/pages/MainPage";
+import { MainPage } from "./features/rates/pages/MainPage";
 
 function App() {
   return <MainPage />;

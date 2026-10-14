@@ -5,10 +5,10 @@ import { Button } from "@/shared/components/Button";
 import { FilledStarIcon } from "../icons/FilledStarIcon";
 import { CheckIcon } from "../icons/CheckIcon";
 import { CurrencyButton } from "./CurrencyButton";
-import { useGetRateBetweenCurrencies } from "../hooks/use-get-rate-between-currencies";
 import { convert } from "../lib/currency";
 import type { Rate } from "../model/currencies.types";
 import { Skeleton } from "@/shared/components/Skeleton";
+import { useGetRates } from "../hooks/use-get-rates";
 
 interface Props {
   sendCurrency: string;
@@ -25,7 +25,7 @@ export function CheckRateSection({
 }: Props) {
   const [sendValue, setSendValue] = useState<string>("");
 
-  const { isLoading, data } = useGetRateBetweenCurrencies({
+  const { isLoading, data } = useGetRates({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
   });

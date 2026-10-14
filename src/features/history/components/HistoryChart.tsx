@@ -7,7 +7,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { Rate } from "../../currency/model/currencies.types";
+import type { Rate } from "../../rates/model/currencies.types";
 import {
   extractDateComponentsFromIsoStringDateWithoutTime,
   formatIsoStringToLongDateString,

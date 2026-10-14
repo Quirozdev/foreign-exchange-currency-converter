@@ -41,13 +41,8 @@ export function HistoryChart({
   });
 
   return (
-    <ResponsiveContainer width="100%" height={300} aspect={5}>
+    <ResponsiveContainer width="100%" height={300}>
       <AreaChart
-        style={{
-          width: "100%",
-          maxHeight: "70vh",
-        }}
-        responsive
         data={transformedData}
         margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
       >
@@ -72,8 +67,28 @@ export function HistoryChart({
             stroke: "var(--color-neutral-500)",
           }}
         />
-        <XAxis dataKey="date" tickLine={false} minTickGap={40} />
-        <YAxis width={75} domain={["dataMin", "dataMax"]} tickLine={false} />
+        <XAxis
+          dataKey="date"
+          tickLine={false}
+          minTickGap={40}
+          tickMargin={16}
+          tick={{
+            fill: "var(--color-neutral-200)",
+            fontSize: 10,
+            textAnchor: "start",
+          }}
+        />
+        <YAxis
+          width={75}
+          domain={["dataMin", "dataMax"]}
+          tickLine={false}
+          tickMargin={16}
+          tick={{
+            fill: "var(--color-neutral-200)",
+            fontSize: 10,
+            textAnchor: "end",
+          }}
+        />
         <Tooltip
           content={(tooltipContentProps) => (
             <HistoryChartTooltip

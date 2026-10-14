@@ -115,7 +115,6 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
         ) : (
           <HistoryChart
             ratesHistory={data}
-            interval={selectedInterval}
             sendCurrency={sendCurrency}
             receiveCurrency={receiveCurrency}
           />

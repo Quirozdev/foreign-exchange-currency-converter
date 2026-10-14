@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { AmountInput } from "../components/AmountInput";
 import { ExchangeButton } from "../components/ExchangeButton";
 import { Button } from "@/shared/components/Button";
@@ -13,6 +12,8 @@ import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-curr
 interface Props {
   sendCurrency: string;
   onSendCurrencyChange: (currency: string) => void;
+  sendValue: string;
+  onSendValueChange: (value: string) => void;
   receiveCurrency: string;
   onReceiveCurrencyChange: (currency: string) => void;
 }
@@ -20,11 +21,11 @@ interface Props {
 export function CheckRateSection({
   sendCurrency,
   onSendCurrencyChange,
+  sendValue,
+  onSendValueChange,
   receiveCurrency,
   onReceiveCurrencyChange,
 }: Props) {
-  const [sendValue, setSendValue] = useState<string>("");
-
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
@@ -47,7 +48,7 @@ export function CheckRateSection({
             <div className="flex items-center justify-between gap-x-16">
               <AmountInput
                 value={sendValue}
-                onChange={(e) => setSendValue(e.target.value)}
+                onChange={(e) => onSendValueChange(e.target.value)}
               />
               <CurrencyButton
                 selectedCurrencyCode={sendCurrency}
@@ -107,7 +108,7 @@ export function CheckRateSection({
               text="LOG CONVERSION"
               activeIcon={<CheckIcon />}
               activeText="Logged"
-              className="outline-lime-500 hover:bg-lime-800 hover:outline-lime-500"
+              className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
             />
           </div>
         </div>

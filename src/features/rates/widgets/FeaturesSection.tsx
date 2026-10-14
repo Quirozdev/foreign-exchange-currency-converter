@@ -9,10 +9,15 @@ import { CompareSection } from "@/features/compare/sections/CompareSection";
 
 interface Props {
   sendCurrency: string;
+  sendValue: string;
   receiveCurrency: string;
 }
 
-export function FeaturesSection({ sendCurrency, receiveCurrency }: Props) {
+export function FeaturesSection({
+  sendCurrency,
+  sendValue,
+  receiveCurrency,
+}: Props) {
   const [activeTab, setActiveTab] = useState<TabValue>(tabs[0].value);
 
   return (
@@ -25,7 +30,9 @@ export function FeaturesSection({ sendCurrency, receiveCurrency }: Props) {
             receiveCurrency={receiveCurrency}
           />
         )}
-        {activeTab === "compare" && <CompareSection />}
+        {activeTab === "compare" && (
+          <CompareSection sendCurrency={sendCurrency} sendValue={sendValue} />
+        )}
         {activeTab === "favorites" && <FavoritesSection />}
         {activeTab === "log" && <LogSection />}
       </>

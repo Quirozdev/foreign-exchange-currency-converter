@@ -4,6 +4,7 @@ import { FeaturesSection } from "./FeaturesSection";
 
 export function MainSection() {
   const [sendCurrency, setSendCurrency] = useState<string>("USD");
+  const [sendValue, setSendValue] = useState<string>("");
   const [receiveCurrency, setReceiveCurrency] = useState<string>("EUR");
 
   return (
@@ -11,11 +12,14 @@ export function MainSection() {
       <CheckRateSection
         sendCurrency={sendCurrency}
         onSendCurrencyChange={setSendCurrency}
+        sendValue={sendValue}
+        onSendValueChange={setSendValue}
         receiveCurrency={receiveCurrency}
         onReceiveCurrencyChange={setReceiveCurrency}
       />
       <FeaturesSection
         sendCurrency={sendCurrency}
+        sendValue={sendValue}
         receiveCurrency={receiveCurrency}
       />
     </main>

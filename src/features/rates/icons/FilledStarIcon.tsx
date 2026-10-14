@@ -1,4 +1,6 @@
-export function FilledStarIcon() {
+import type { SVGProps } from "react";
+
+export function FilledStarIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,6 +8,7 @@ export function FilledStarIcon() {
       height="16"
       fill="none"
       viewBox="0 0 16 16"
+      {...props}
     >
       <path
         fill="currentColor"

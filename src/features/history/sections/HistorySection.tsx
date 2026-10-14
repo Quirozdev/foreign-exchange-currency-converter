@@ -5,7 +5,9 @@ import type { Interval } from "@/shared/model/intervals.types";
 import { HistoryChart } from "../components/HistoryChart";
 import { useGetRateBetweenDates } from "../hooks/use-get-rate-between-dates";
 import {
+  extractDatePartsFromDate,
   formatDateToIsoStringWithoutTime,
+  formatIsoStringToLongDateString,
   subtractFromDate,
 } from "@/shared/lib/dates";
 import { HistoryCards } from "../components/HistoryCards";
@@ -57,13 +59,15 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
     );
   }
 
+  const firstRate = Number(data[0].rate.toFixed(4));
+  const lastRate = Number(data[data.length - 1].rate.toFixed(4));
+
+  const { hour, minute, timeZoneName } = extractDatePartsFromDate(to);
+
   return (
     <section className="flex flex-col gap-y-4 overflow-hidden md:gap-y-5">
       <div className="flex flex-col gap-y-5 xl:flex-row xl:items-center">
-        <HistoryCards
-          firstRate={Number(data[0].rate.toFixed(4))}
-          lastRate={Number(data[data.length - 1].rate.toFixed(4))}
-        />
+        <HistoryCards firstRate={firstRate} lastRate={lastRate} />
         <HistoryIntervalPicker
           selectedInterval={selectedInterval}
           onSelect={setSelectedInterval}
@@ -71,9 +75,15 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
       </div>
       <div className="rounded-16 flex flex-col gap-y-5 border border-neutral-600 bg-neutral-700 px-3 py-4 md:p-5">
         <div className="flex items-center justify-between">
-          <p className="text-preset-3-medium text-neutral-50">USD/EUR</p>
+          <p className="text-preset-3-medium text-neutral-50">
+            {sendCurrency}/{receiveCurrency}
+          </p>
           <p className="text-preset-5 text-neutral-50">
-            0.8530 · MAY 14 16:00 CET
+            {lastRate} ·{" "}
+            {formatIsoStringToLongDateString(
+              formatDateToIsoStringWithoutTime(to),
+            ).toUpperCase()}{" "}
+            {hour}:{minute} {timeZoneName}
           </p>
         </div>
         <HistoryChart

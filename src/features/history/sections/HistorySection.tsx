@@ -78,7 +78,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
           <p className="text-preset-3-medium text-neutral-50">
             {sendCurrency}/{receiveCurrency}
           </p>
-          <p className="text-preset-5 text-neutral-50">
+          <p className="text-preset-5 text-neutral-50 opacity-70">
             {lastRate} ·{" "}
             {formatIsoStringToLongDateString(
               formatDateToIsoStringWithoutTime(to),

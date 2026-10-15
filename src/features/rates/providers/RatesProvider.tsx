@@ -23,7 +23,7 @@ export function RatesProvider({ children }: RatesProviderProps) {
   }
 
   return (
-    <RatesContext
+    <RatesContext.Provider
       value={{
         sendCurrency,
         changeSendCurrency,
@@ -34,6 +34,6 @@ export function RatesProvider({ children }: RatesProviderProps) {
       }}
     >
       {children}
-    </RatesContext>
+    </RatesContext.Provider>
   );
 }

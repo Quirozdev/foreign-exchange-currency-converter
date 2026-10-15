@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-interface RatesContext {
+interface RatesContextProps {
   sendCurrency: string;
   changeSendCurrency: (currency: string) => void;
   sendValue: string;
@@ -9,4 +9,4 @@ interface RatesContext {
   changeReceiveCurrency: (currency: string) => void;
 }
 
-export const RatesContext = createContext<RatesContext | null>(null);
+export const RatesContext = createContext<RatesContextProps | null>(null);

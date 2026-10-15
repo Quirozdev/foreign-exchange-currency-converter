@@ -105,7 +105,7 @@ export function CheckRateSection() {
                   sendCurrency: sendCurrency,
                   receiveCurrency: receiveCurrency,
                   rate: data?.rate,
-                  changePercentage: 0.15, // TODO: make this dynamic comparing to previous 24 hours
+                  date: data?.date,
                 });
               }}
             />

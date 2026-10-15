@@ -36,7 +36,7 @@ export function FavoritePair({
             )}
           >
             {changePercentage > 0 ? "▲" : "▼"} {changePercentage > 0 && "+"}
-            {changePercentage}
+            {changePercentage.toFixed(2)}
           </p>
         </div>
         <Button

@@ -50,7 +50,7 @@ export function CurrencyComparison({ rateData }: Props) {
               sendCurrency: rateData.base,
               receiveCurrency: rateData.quote,
               rate: rateData.rate,
-              changePercentage: 0.15, // TODO: make this dynamic comparing to previous 24 hours
+              date: rateData.date,
             });
           }}
           className="bg-neutral-600 hover:bg-neutral-500 focus:bg-neutral-600"

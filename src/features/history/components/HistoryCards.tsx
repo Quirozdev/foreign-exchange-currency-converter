@@ -1,5 +1,6 @@
 import { cn } from "@/shared/lib/cn";
 import { HistoryCardsContainer } from "./HistoryCardsContainer";
+import { calculateChangePercentageBetweenRates } from "@/features/rates/lib/rates";
 
 interface Props {
   firstRate: number;
@@ -8,9 +9,9 @@ interface Props {
 
 export function HistoryCards({ firstRate, lastRate }: Props) {
   const change = Number((lastRate - firstRate).toFixed(4));
-  const changePercentage = (
-    ((lastRate - firstRate) / Math.abs(lastRate)) *
-    100
+  const changePercentage = calculateChangePercentageBetweenRates(
+    lastRate,
+    firstRate,
   ).toFixed(2);
 
   return (

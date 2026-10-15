@@ -1,3 +1,4 @@
+import { useCurrencies } from "@/features/rates/hooks/use-currencies";
 import { useRates } from "@/features/rates/hooks/use-rates";
 import { FilledStarIcon } from "@/features/rates/icons/FilledStarIcon";
 import { StarIcon } from "@/features/rates/icons/StarIcon";
@@ -12,7 +13,13 @@ interface Props {
 }
 
 export function CurrencyComparison({ rateData }: Props) {
+  const { currencies } = useCurrencies();
+
   const { sendValue } = useRates();
+
+  const currencyName =
+    currencies?.find((currency) => currency.iso_code === rateData.quote)
+      ?.name || "-";
 
   return (
     <div className="rounded-10 flex items-center gap-x-2.5 border border-neutral-500 bg-neutral-600 p-3 md:gap-x-5 md:px-4">
@@ -23,9 +30,7 @@ export function CurrencyComparison({ rateData }: Props) {
       />
       <div className="flex flex-col gap-y-1.5">
         <p className="text-preset-4 text-neutral-50">{rateData.quote}</p>
-        <p className="text-preset-5 text-neutral-200">
-          TODO: Make this the currency name
-        </p>
+        <p className="text-preset-5 text-neutral-200">{currencyName}</p>
       </div>
       <div className="ml-auto flex items-center gap-x-2.5 md:gap-x-5">
         <div className="flex flex-col items-end gap-y-1.5">

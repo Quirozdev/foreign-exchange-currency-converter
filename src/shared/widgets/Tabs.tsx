@@ -1,18 +1,18 @@
 import { useRef, useState } from "react";
 import { Tab } from "../components/Tab";
-import { tabs } from "../model/tabs.constants";
 import ChevronDownIcon from "@/assets/images/icon-chevron-down.svg";
 import { useKeyDown } from "../hooks/use-key-down";
 import { useClickOutside } from "../hooks/use-click-outside";
 import { cn } from "../lib/cn";
-import type { TabValue } from "../model/tabs.types";
+import type { Tab as TabType, TabValue } from "../model/tabs.types";
 
 interface Props {
+  tabs: TabType[];
   activeTab: TabValue;
   onTabChange: (tab: TabValue) => void;
 }
 
-export function Tabs({ activeTab, onTabChange }: Props) {
+export function Tabs({ tabs, activeTab, onTabChange }: Props) {
   const [isMobileTabsOpen, setIsMobileTabsOpen] = useState(false);
 
   const mobileContainerRef = useRef<HTMLDivElement>(null);

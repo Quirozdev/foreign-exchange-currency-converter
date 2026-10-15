@@ -1,3 +1,4 @@
+import { useFavorites } from "@/features/favorites/hooks/use-favorites";
 import { useCurrencies } from "@/features/rates/hooks/use-currencies";
 import { useRates } from "@/features/rates/hooks/use-rates";
 import { FilledStarIcon } from "@/features/rates/icons/FilledStarIcon";
@@ -16,6 +17,8 @@ export function CurrencyComparison({ rateData }: Props) {
   const { currencies } = useCurrencies();
 
   const { sendValue } = useRates();
+
+  const { addFavorite } = useFavorites();
 
   const currencyName =
     currencies?.find((currency) => currency.iso_code === rateData.quote)
@@ -42,6 +45,14 @@ export function CurrencyComparison({ rateData }: Props) {
           <p className="text-preset-6 text-neutral-200">@ {rateData.rate}</p>
         </div>
         <Button
+          onClick={() => {
+            addFavorite({
+              sendCurrency: rateData.base,
+              receiveCurrency: rateData.quote,
+              rate: rateData.rate,
+              changePercentage: 0.15, // TODO: make this dynamic comparing to previous 24 hours
+            });
+          }}
           className="bg-neutral-600 hover:bg-neutral-500 focus:bg-neutral-600"
           icon={<StarIcon />}
           activeIcon={<FilledStarIcon className="text-lime-500" />}

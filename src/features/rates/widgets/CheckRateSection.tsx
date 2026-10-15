@@ -9,6 +9,7 @@ import type { Rate } from "../model/currencies.types";
 import { Skeleton } from "@/shared/components/Skeleton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-currencies";
 import { useRates } from "../hooks/use-rates";
+import { useFavorites } from "@/features/favorites/hooks/use-favorites";
 
 export function CheckRateSection() {
   const {
@@ -19,6 +20,8 @@ export function CheckRateSection() {
     receiveCurrency,
     changeReceiveCurrency,
   } = useRates();
+
+  const { addFavorite } = useFavorites();
 
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
@@ -97,6 +100,14 @@ export function CheckRateSection() {
               activeIcon={<FilledStarIcon />}
               text="FAVORITE"
               activeText="FAVORITED"
+              onClick={() => {
+                addFavorite({
+                  sendCurrency: sendCurrency,
+                  receiveCurrency: receiveCurrency,
+                  rate: data?.rate,
+                  changePercentage: 0.15, // TODO: make this dynamic comparing to previous 24 hours
+                });
+              }}
             />
             <Button
               text="LOG CONVERSION"

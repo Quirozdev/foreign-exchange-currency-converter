@@ -2,6 +2,7 @@ import ArrowRightIcon from "@/assets/images/icon-arrow-right.svg";
 import { FilledStarIcon } from "@/features/rates/icons/FilledStarIcon";
 import { Button } from "@/shared/components/Button";
 import { cn } from "@/shared/lib/cn";
+import { useFavorites } from "../hooks/use-favorites";
 
 interface Props {
   sendCurrency: string;
@@ -16,6 +17,8 @@ export function FavoritePair({
   rate,
   changePercentage,
 }: Props) {
+  const { removeFavorite } = useFavorites();
+
   return (
     <div className="rounded-10 flex items-center justify-between border border-neutral-500 bg-neutral-600 p-3 md:px-4">
       <div className="flex items-center gap-x-2">
@@ -37,6 +40,9 @@ export function FavoritePair({
           </p>
         </div>
         <Button
+          onClick={() => {
+            removeFavorite(sendCurrency, receiveCurrency);
+          }}
           className="bg-neutral-600 outline-lime-500 hover:bg-neutral-500 focus:bg-neutral-600"
           icon={<FilledStarIcon className="text-lime-500" />}
           activeIcon={<FilledStarIcon className="text-lime-500" />}

@@ -9,23 +9,54 @@ interface FavoritesProviderProps {
 }
 
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
-  const [favorites, setFavorites] = useState(
+  const [favorites, setFavorites] = useState(() =>
     getItemOrDefault<Favorite[]>(FAVORITES_STORAGE_KEY, []),
   );
 
-  function addFavorite(favorite: Favorite) {
-    const updatedFavorites = [...favorites, favorite];
-    setItem(FAVORITES_STORAGE_KEY, updatedFavorites);
-    setFavorites(updatedFavorites);
+  function alreadyHasPair(favorite: Favorite) {
+    return !!favorites.find((currentFavorite) => {
+      return (
+        currentFavorite.sendCurrency === favorite.sendCurrency &&
+        currentFavorite.receiveCurrency === favorite.receiveCurrency
+      );
+    });
   }
 
-  function removeFavorite(sendCurrency: string, receiveCurrency: string) {
-    const updatedFavorites = favorites.filter((currentFavorite) => {
+  function getFavoritesWithoutPair(
+    favorites: Favorite[],
+    sendCurrency: string,
+    receiveCurrency: string,
+  ) {
+    return favorites.filter((currentFavorite) => {
       return !(
         currentFavorite.sendCurrency === sendCurrency &&
         currentFavorite.receiveCurrency === receiveCurrency
       );
     });
+  }
+
+  function addFavorite(favorite: Favorite) {
+    const updatedFavorites = alreadyHasPair(favorite)
+      ? favorites.map((currentFavorite) => {
+          if (
+            currentFavorite.sendCurrency === favorite.sendCurrency &&
+            currentFavorite.receiveCurrency === favorite.receiveCurrency
+          ) {
+            return favorite;
+          }
+          return currentFavorite;
+        })
+      : [...favorites, favorite];
+    setItem(FAVORITES_STORAGE_KEY, updatedFavorites);
+    setFavorites(updatedFavorites);
+  }
+
+  function removeFavorite(sendCurrency: string, receiveCurrency: string) {
+    const updatedFavorites = getFavoritesWithoutPair(
+      favorites,
+      sendCurrency,
+      receiveCurrency,
+    );
     setItem(FAVORITES_STORAGE_KEY, updatedFavorites);
     setFavorites(updatedFavorites);
   }

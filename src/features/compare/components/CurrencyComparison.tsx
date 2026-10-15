@@ -1,3 +1,4 @@
+import { useRates } from "@/features/rates/hooks/use-rates";
 import { FilledStarIcon } from "@/features/rates/icons/FilledStarIcon";
 import { StarIcon } from "@/features/rates/icons/StarIcon";
 import { convert } from "@/features/rates/lib/currency";
@@ -8,10 +9,11 @@ import { formatNumberToMoney } from "@/shared/utils/numbers";
 
 interface Props {
   rateData: Rate;
-  sendValue: string;
 }
 
-export function CurrencyComparison({ rateData, sendValue }: Props) {
+export function CurrencyComparison({ rateData }: Props) {
+  const { sendValue } = useRates();
+
   return (
     <div className="rounded-10 flex items-center gap-x-2.5 border border-neutral-500 bg-neutral-600 p-3 md:gap-x-5 md:px-4">
       <img

@@ -14,13 +14,11 @@ import { intervalToDateParamsMapping } from "@/shared/model/dates.constants";
 import { HistorySectionSkeleton } from "../components/HistorySectionSkeleton";
 import { HistorySectionEmpty } from "../components/HistorySectionEmpty";
 import { useGetRates } from "@/features/rates/hooks/use-get-rates";
+import { useRates } from "@/features/rates/hooks/use-rates";
 
-interface Props {
-  sendCurrency: string;
-  receiveCurrency: string;
-}
+export function HistorySection() {
+  const { sendCurrency, receiveCurrency } = useRates();
 
-export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
   const [selectedInterval, setSelectedInterval] = useState<Interval>(
     intervals[2].value,
   );
@@ -51,12 +49,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
   }
 
   if (error || !data || data.length === 0) {
-    return (
-      <HistorySectionEmpty
-        sendCurrency={sendCurrency}
-        receiveCurrency={receiveCurrency}
-      />
-    );
+    return <HistorySectionEmpty />;
   }
 
   const firstRate = Number(data[0].rate.toFixed(4));
@@ -86,11 +79,7 @@ export function HistorySection({ sendCurrency, receiveCurrency }: Props) {
             {hour}:{minute} {timeZoneName}
           </p>
         </div>
-        <HistoryChart
-          ratesHistory={data}
-          sendCurrency={sendCurrency}
-          receiveCurrency={receiveCurrency}
-        />
+        <HistoryChart ratesHistory={data} />
       </div>
     </section>
   );

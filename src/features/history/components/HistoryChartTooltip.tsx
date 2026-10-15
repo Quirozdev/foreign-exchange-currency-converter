@@ -1,19 +1,13 @@
 import type { TooltipContentProps } from "recharts";
 import ArrowRightIcon from "@/assets/images/icon-arrow-right.svg";
 import { getCurrencyMetadataWithDefaults } from "@/features/rates/utils/currency-metadata";
+import { useRates } from "@/features/rates/hooks/use-rates";
 
-interface Props extends TooltipContentProps {
-  sendCurrency: string;
-  receiveCurrency: string;
-}
+type Props = TooltipContentProps;
 
-export function HistoryChartTooltip({
-  sendCurrency,
-  receiveCurrency,
-  active,
-  payload,
-  label,
-}: Props) {
+export function HistoryChartTooltip({ active, payload, label }: Props) {
+  const { sendCurrency, receiveCurrency } = useRates();
+
   if (active && payload && payload.length) {
     const sendCurrencyMetadata = getCurrencyMetadataWithDefaults(sendCurrency);
     const receiveCurrencyMetadata =

@@ -1,9 +1,8 @@
-interface Props {
-  sendCurrency: string;
-  receiveCurrency: string;
-}
+import { useRates } from "@/features/rates/hooks/use-rates";
 
-export function HistorySectionEmpty({ sendCurrency, receiveCurrency }: Props) {
+export function HistorySectionEmpty() {
+  const { sendCurrency, receiveCurrency } = useRates();
+
   return (
     <section className="flex flex-col items-center gap-y-4 px-4 py-10">
       <p className="text-preset-2 text-center text-neutral-100">

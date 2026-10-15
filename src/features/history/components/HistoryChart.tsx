@@ -16,15 +16,9 @@ import { HistoryChartTooltip } from "./HistoryChartTooltip";
 
 interface Props {
   ratesHistory: Rate[];
-  sendCurrency: string;
-  receiveCurrency: string;
 }
 
-export function HistoryChart({
-  ratesHistory,
-  sendCurrency,
-  receiveCurrency,
-}: Props) {
+export function HistoryChart({ ratesHistory }: Props) {
   const isDifferenceMoreThanAYear =
     ratesHistory.length > 0 &&
     extractDateComponentsFromIsoStringDateWithoutTime(ratesHistory[0].date)
@@ -91,11 +85,7 @@ export function HistoryChart({
         />
         <Tooltip
           content={(tooltipContentProps) => (
-            <HistoryChartTooltip
-              {...tooltipContentProps}
-              sendCurrency={sendCurrency}
-              receiveCurrency={receiveCurrency}
-            />
+            <HistoryChartTooltip {...tooltipContentProps} />
           )}
         />
         <Area

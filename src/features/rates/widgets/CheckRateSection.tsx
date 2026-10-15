@@ -8,32 +8,26 @@ import { convert } from "../lib/currency";
 import type { Rate } from "../model/currencies.types";
 import { Skeleton } from "@/shared/components/Skeleton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-currencies";
+import { useRates } from "../hooks/use-rates";
 
-interface Props {
-  sendCurrency: string;
-  onSendCurrencyChange: (currency: string) => void;
-  sendValue: string;
-  onSendValueChange: (value: string) => void;
-  receiveCurrency: string;
-  onReceiveCurrencyChange: (currency: string) => void;
-}
+export function CheckRateSection() {
+  const {
+    sendCurrency,
+    changeSendCurrency,
+    sendValue,
+    changeSendValue,
+    receiveCurrency,
+    changeReceiveCurrency,
+  } = useRates();
 
-export function CheckRateSection({
-  sendCurrency,
-  onSendCurrencyChange,
-  sendValue,
-  onSendValueChange,
-  receiveCurrency,
-  onReceiveCurrencyChange,
-}: Props) {
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
   });
 
   function handleExchangeCurrencies() {
-    onSendCurrencyChange(receiveCurrency);
-    onReceiveCurrencyChange(sendCurrency);
+    changeSendCurrency(receiveCurrency);
+    changeReceiveCurrency(sendCurrency);
   }
 
   return (
@@ -48,12 +42,12 @@ export function CheckRateSection({
             <div className="flex items-center justify-between gap-x-16">
               <AmountInput
                 value={sendValue}
-                onChange={(e) => onSendValueChange(e.target.value)}
+                onChange={(e) => changeSendValue(e.target.value)}
               />
               <CurrencyButton
                 selectedCurrencyCode={sendCurrency}
                 onCurrencyChange={(currency) =>
-                  onSendCurrencyChange(currency.iso_code)
+                  changeSendCurrency(currency.iso_code)
                 }
               />
             </div>
@@ -81,7 +75,7 @@ export function CheckRateSection({
               <CurrencyButton
                 selectedCurrencyCode={receiveCurrency}
                 onCurrencyChange={(currency) =>
-                  onReceiveCurrencyChange(currency.iso_code)
+                  changeReceiveCurrency(currency.iso_code)
                 }
               />
             </div>

@@ -7,32 +7,15 @@ import { tabs } from "@/shared/model/tabs.constants";
 import type { TabValue } from "@/shared/model/tabs.types";
 import { CompareSection } from "@/features/compare/sections/CompareSection";
 
-interface Props {
-  sendCurrency: string;
-  sendValue: string;
-  receiveCurrency: string;
-}
-
-export function FeaturesSection({
-  sendCurrency,
-  sendValue,
-  receiveCurrency,
-}: Props) {
+export function FeaturesSection() {
   const [activeTab, setActiveTab] = useState<TabValue>(tabs[0].value);
 
   return (
     <div className="flex flex-col gap-y-4 md:gap-y-5">
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
       <>
-        {activeTab === "history" && (
-          <HistorySection
-            sendCurrency={sendCurrency}
-            receiveCurrency={receiveCurrency}
-          />
-        )}
-        {activeTab === "compare" && (
-          <CompareSection sendCurrency={sendCurrency} sendValue={sendValue} />
-        )}
+        {activeTab === "history" && <HistorySection />}
+        {activeTab === "compare" && <CompareSection />}
         {activeTab === "favorites" && <FavoritesSection />}
         {activeTab === "log" && <LogSection />}
       </>

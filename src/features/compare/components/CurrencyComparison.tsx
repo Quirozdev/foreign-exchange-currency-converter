@@ -4,6 +4,7 @@ import { convert } from "@/features/rates/lib/currency";
 import type { Rate } from "@/features/rates/model/currencies.types";
 import { getCurrencyMetadataWithDefaults } from "@/features/rates/utils/currency-metadata";
 import { Button } from "@/shared/components/Button";
+import { formatNumberToMoney } from "@/shared/utils/numbers";
 
 interface Props {
   rateData: Rate;
@@ -25,9 +26,11 @@ export function CurrencyComparison({ rateData, sendValue }: Props) {
         </p>
       </div>
       <div className="ml-auto flex items-center gap-x-2.5 md:gap-x-5">
-        <div className="flex flex-col gap-y-1.5">
+        <div className="flex flex-col items-end gap-y-1.5">
           <p className="text-preset-3 text-neutral-50">
-            {convert(Number(sendValue), rateData.rate, 2)}
+            {formatNumberToMoney(
+              Number(convert(Number(sendValue), rateData.rate, 2)),
+            )}
           </p>
           <p className="text-preset-6 text-neutral-200">@ {rateData.rate}</p>
         </div>

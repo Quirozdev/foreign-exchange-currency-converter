@@ -95,26 +95,35 @@ export function CheckRateSection() {
           )}
 
           <div className="flex items-center justify-center gap-x-2">
-            <Button
-              icon={<FilledStarIcon />}
-              activeIcon={<FilledStarIcon />}
-              text="FAVORITE"
-              activeText="FAVORITED"
-              onClick={() => {
-                addFavorite({
-                  sendCurrency: sendCurrency,
-                  receiveCurrency: receiveCurrency,
-                  rate: data?.rate,
-                  date: data?.date,
-                });
-              }}
-            />
-            <Button
-              text="LOG CONVERSION"
-              activeIcon={<CheckIcon />}
-              activeText="Logged"
-              className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
-            />
+            {isLoading ? (
+              <Skeleton className="h-8 w-64" />
+            ) : (
+              <>
+                <Button
+                  icon={<FilledStarIcon />}
+                  activeIcon={<FilledStarIcon />}
+                  text="FAVORITE"
+                  activeText="FAVORITED"
+                  loadingElement={
+                    <span className="text-preset-5-medium">Loading...</span>
+                  }
+                  onClick={async () => {
+                    await addFavorite({
+                      sendCurrency: sendCurrency,
+                      receiveCurrency: receiveCurrency,
+                      rate: (data as Rate)?.rate,
+                      date: (data as Rate)?.date,
+                    });
+                  }}
+                />
+                <Button
+                  text="LOG CONVERSION"
+                  activeIcon={<CheckIcon />}
+                  activeText="Logged"
+                  className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

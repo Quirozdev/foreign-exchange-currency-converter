@@ -45,8 +45,8 @@ export function CurrencyComparison({ rateData }: Props) {
           <p className="text-preset-6 text-neutral-200">@ {rateData.rate}</p>
         </div>
         <Button
-          onClick={() => {
-            addFavorite({
+          onClick={async () => {
+            await addFavorite({
               sendCurrency: rateData.base,
               receiveCurrency: rateData.quote,
               rate: rateData.rate,
@@ -56,6 +56,9 @@ export function CurrencyComparison({ rateData }: Props) {
           className="bg-neutral-600 hover:bg-neutral-500 focus:bg-neutral-600"
           icon={<StarIcon />}
           activeIcon={<FilledStarIcon className="text-lime-500" />}
+          loadingElement={
+            <FilledStarIcon className="animate-spin text-lime-500" />
+          }
         />
       </div>
     </div>

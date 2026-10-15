@@ -15,7 +15,7 @@ export function HistoryIntervalPicker({ selectedInterval, onSelect }: Props) {
           <button
             key={interval.value}
             className={cn(
-              "text-preset-5 grid cursor-pointer place-items-center px-4 py-3 text-neutral-200",
+              "text-preset-5 hover:rounded-8 grid cursor-pointer place-items-center px-4 py-3 text-neutral-200 hover:bg-neutral-300 focus:shadow-[0_0_0_3px_var(--color-neutral-700),0_0_0_4px_var(--color-lime-500)]",
               selectedInterval === interval.value &&
                 "rounded-8 bg-neutral-500 text-neutral-50",
             )}

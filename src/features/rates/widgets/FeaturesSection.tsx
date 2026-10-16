@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Tabs } from "../../../shared/widgets/Tabs";
 import { HistorySection } from "../../history/sections/HistorySection";
-import { LogSection } from "./LogSection";
 import type { Tab, TabValue } from "@/shared/model/tabs.types";
 import { CompareSection } from "@/features/compare/sections/CompareSection";
 import { FavoritesSection } from "@/features/favorites/sections/FavoritesSection";
 import { useFavorites } from "@/features/favorites/hooks/use-favorites";
+import { LogSection } from "@/features/log/sections/LogSection";
 
 export function FeaturesSection() {
   const { favorites } = useFavorites();

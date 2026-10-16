@@ -45,7 +45,8 @@ export function FavoritePair({
         </div>
         <Button
           isActive={true}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             removeFavorite(sendCurrency, receiveCurrency);
           }}
           className="bg-neutral-600 outline-lime-500 hover:bg-neutral-500 focus:bg-neutral-600"

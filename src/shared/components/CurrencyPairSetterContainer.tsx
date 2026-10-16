@@ -1,5 +1,6 @@
 import { useRates } from "@/features/rates/hooks/use-rates";
 import { cn } from "../lib/cn";
+import { useRef } from "react";
 
 interface Props extends React.ComponentPropsWithoutRef<"div"> {
   sendCurrency: string;
@@ -15,6 +16,8 @@ export function CurrencyPairSetterContainer({
 }: Props) {
   const { changeSendCurrency, changeReceiveCurrency } = useRates();
 
+  const ref = useRef<HTMLDivElement | null>(null);
+
   function setFavoriteCurrencyPair() {
     changeSendCurrency(sendCurrency);
     changeReceiveCurrency(receiveCurrency);
@@ -22,10 +25,11 @@ export function CurrencyPairSetterContainer({
 
   return (
     <div
+      ref={ref}
       onClick={setFavoriteCurrencyPair}
       onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
+        if (e.key === "Enter" && e.target === ref.current) {
+          e.stopPropagation();
           setFavoriteCurrencyPair();
         }
       }}

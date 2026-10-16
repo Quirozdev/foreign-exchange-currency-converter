@@ -56,7 +56,8 @@ export function CurrencyComparison({ rateData }: Props) {
         </div>
         <Button
           isActive={isPairAlreadyFavorited}
-          onClick={async () => {
+          onClick={async (e) => {
+            e.stopPropagation();
             if (isPairAlreadyFavorited) {
               removeFavorite(rateData.base, rateData.quote);
             } else {

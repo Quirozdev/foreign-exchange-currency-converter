@@ -1,19 +1,20 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
 interface Props extends React.ComponentPropsWithRef<"button"> {
+  isActive: boolean;
   icon?: ReactNode;
   text?: string;
   activeIcon?: ReactNode;
   activeText?: string;
   loadingElement?: ReactNode;
-  includeTimedActiveState?: boolean;
   onClick?: (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => void | Promise<void>;
 }
 
 export function Button({
+  isActive,
   className,
   icon,
   text,
@@ -21,21 +22,10 @@ export function Button({
   activeText,
   loadingElement,
   disabled,
-  includeTimedActiveState,
   onClick,
   ...props
 }: Props) {
-  const [isActive, setIsActive] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
 
   return (
     <button
@@ -54,15 +44,6 @@ export function Button({
         } finally {
           setIsLoading(false);
         }
-        if (!includeTimedActiveState) return;
-
-        if (timeoutRef.current !== null) {
-          clearTimeout(timeoutRef.current);
-        }
-        setIsActive(true);
-        timeoutRef.current = setTimeout(() => {
-          setIsActive(false);
-        }, 2000);
       }}
       {...props}
     >

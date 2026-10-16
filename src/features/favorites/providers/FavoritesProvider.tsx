@@ -20,7 +20,9 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     getItemOrDefault<Favorite[]>(FAVORITES_STORAGE_KEY, []),
   );
 
-  function alreadyHasPair(favorite: Omit<Favorite, "changePercentage">) {
+  function alreadyHasPair(
+    favorite: Omit<Favorite, "changePercentage" | "rate" | "date">,
+  ) {
     return !!favorites.find((currentFavorite) => {
       return (
         currentFavorite.sendCurrency === favorite.sendCurrency &&

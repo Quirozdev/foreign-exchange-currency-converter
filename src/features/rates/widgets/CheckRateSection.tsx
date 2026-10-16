@@ -21,7 +21,7 @@ export function CheckRateSection() {
     changeReceiveCurrency,
   } = useRates();
 
-  const { addFavorite } = useFavorites();
+  const { addFavorite, removeFavorite, alreadyHasPair } = useFavorites();
 
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
@@ -32,6 +32,11 @@ export function CheckRateSection() {
     changeSendCurrency(receiveCurrency);
     changeReceiveCurrency(sendCurrency);
   }
+
+  const isPairAlreadyFavorited = alreadyHasPair({
+    sendCurrency,
+    receiveCurrency,
+  });
 
   return (
     <section className="flex flex-col gap-y-4">
@@ -100,6 +105,7 @@ export function CheckRateSection() {
             ) : (
               <>
                 <Button
+                  isActive={isPairAlreadyFavorited}
                   icon={<FilledStarIcon />}
                   activeIcon={<FilledStarIcon />}
                   text="FAVORITE"
@@ -108,21 +114,24 @@ export function CheckRateSection() {
                     <span className="text-preset-5-medium">Loading...</span>
                   }
                   onClick={async () => {
-                    await addFavorite({
-                      sendCurrency: sendCurrency,
-                      receiveCurrency: receiveCurrency,
-                      rate: (data as Rate)?.rate,
-                      date: (data as Rate)?.date,
-                    });
+                    if (isPairAlreadyFavorited) {
+                      removeFavorite(sendCurrency, receiveCurrency);
+                    } else {
+                      await addFavorite({
+                        sendCurrency: sendCurrency,
+                        receiveCurrency: receiveCurrency,
+                        rate: (data as Rate)?.rate,
+                        date: (data as Rate)?.date,
+                      });
+                    }
                   }}
-                  includeTimedActiveState={true}
                 />
                 <Button
+                  isActive={false}
                   text="LOG CONVERSION"
                   activeIcon={<CheckIcon />}
                   activeText="Logged"
                   className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
-                  includeTimedActiveState={true}
                 />
               </>
             )}

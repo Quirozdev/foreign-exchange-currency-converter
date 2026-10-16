@@ -24,8 +24,6 @@ export function CurrencyComparison({ rateData }: Props) {
   const isPairAlreadyFavorited = alreadyHasPair({
     sendCurrency: rateData.base,
     receiveCurrency: rateData.quote,
-    rate: rateData.rate,
-    date: rateData.date,
   });
 
   const currencyName =
@@ -57,6 +55,7 @@ export function CurrencyComparison({ rateData }: Props) {
           <p className="text-preset-6 text-neutral-200">@ {rateData.rate}</p>
         </div>
         <Button
+          isActive={isPairAlreadyFavorited}
           onClick={async () => {
             if (isPairAlreadyFavorited) {
               removeFavorite(rateData.base, rateData.quote);
@@ -70,13 +69,7 @@ export function CurrencyComparison({ rateData }: Props) {
             }
           }}
           className="bg-neutral-600 hover:bg-neutral-500 focus:bg-neutral-600"
-          icon={
-            isPairAlreadyFavorited ? (
-              <FilledStarIcon className="text-lime-500" />
-            ) : (
-              <StarIcon />
-            )
-          }
+          icon={<StarIcon />}
           activeIcon={<FilledStarIcon className="text-lime-500" />}
           loadingElement={
             <FilledStarIcon className="animate-spin text-lime-500" />

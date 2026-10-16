@@ -44,6 +44,7 @@ export function FavoritePair({
           </p>
         </div>
         <Button
+          isActive={true}
           onClick={() => {
             removeFavorite(sendCurrency, receiveCurrency);
           }}

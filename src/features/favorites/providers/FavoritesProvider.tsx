@@ -1,24 +1,25 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useReducer, type ReactNode } from "react";
 import { FavoritesContext } from "../context/FavoritesContext";
 import { getItemOrDefault, setItem } from "@/shared/lib/local-storage";
 import { FAVORITES_STORAGE_KEY } from "../model/favorites.constant";
 import type { Favorite } from "../model/favorites.types";
-import { getRates } from "@/features/rates/services/get-rates";
-import {
-  extractDateComponentsFromIsoStringDateWithoutTime,
-  formatDateToIsoStringWithoutTime,
-  subtractFromDate,
-} from "@/shared/lib/dates";
-import { calculateChangePercentageBetweenRates } from "@/features/rates/lib/rates";
+import { favoritesReducer } from "../model/favorites.reducer";
+import { calculateFavoritePercentageChange } from "../services/calculate-favorite-percentage-change";
 
 interface FavoritesProviderProps {
   children: ReactNode;
 }
 
 export function FavoritesProvider({ children }: FavoritesProviderProps) {
-  const [favorites, setFavorites] = useState(() =>
-    getItemOrDefault<Favorite[]>(FAVORITES_STORAGE_KEY, []),
+  const [favorites, dispatch] = useReducer(
+    favoritesReducer,
+    FAVORITES_STORAGE_KEY,
+    (key) => getItemOrDefault<Favorite[]>(key, []),
   );
+
+  useEffect(() => {
+    setItem(FAVORITES_STORAGE_KEY, favorites);
+  }, [favorites]);
 
   function alreadyHasPair(
     favorite: Omit<Favorite, "changePercentage" | "rate" | "date">,
@@ -31,71 +32,24 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
     });
   }
 
-  function getFavoritesWithoutPair(
-    favorites: Favorite[],
-    sendCurrency: string,
-    receiveCurrency: string,
-  ) {
-    return favorites.filter((currentFavorite) => {
-      return !(
-        currentFavorite.sendCurrency === sendCurrency &&
-        currentFavorite.receiveCurrency === receiveCurrency
-      );
-    });
-  }
-
-  async function calculateFavoritePercentageChange(
-    favorite: Omit<Favorite, "changePercentage">,
-  ) {
-    const { day, month, year } =
-      extractDateComponentsFromIsoStringDateWithoutTime(favorite.date);
-    const currentDate = new Date(year, month, day);
-    // should be 2 elements, the first one the previous day and the last (second one) the current day
-    const rates = await getRates(
-      favorite.sendCurrency,
-      favorite.receiveCurrency,
-      formatDateToIsoStringWithoutTime(
-        subtractFromDate(currentDate, { days: 1 }),
-      ),
-      favorite.date,
-    );
-    return calculateChangePercentageBetweenRates(
-      rates[rates.length - 1].rate,
-      rates[0].rate,
-    );
-  }
-
   async function addFavorite(favorite: Omit<Favorite, "changePercentage">) {
     const changePercentage = await calculateFavoritePercentageChange(favorite);
     const favoriteWithChangePercentage: Favorite = {
       ...favorite,
       changePercentage,
     };
-    const updatedFavorites = alreadyHasPair(favoriteWithChangePercentage)
-      ? favorites.map((currentFavorite) => {
-          if (
-            currentFavorite.sendCurrency ===
-              favoriteWithChangePercentage.sendCurrency &&
-            currentFavorite.receiveCurrency ===
-              favoriteWithChangePercentage.receiveCurrency
-          ) {
-            return favoriteWithChangePercentage;
-          }
-          return currentFavorite;
-        })
-      : [...favorites, favoriteWithChangePercentage];
-    setItem(FAVORITES_STORAGE_KEY, updatedFavorites);
-    setFavorites(updatedFavorites);
+    dispatch({
+      type: "upsert",
+      favorite: favoriteWithChangePercentage,
+    });
   }
 
   function removeFavorite(sendCurrency: string, receiveCurrency: string) {
-    const updatedFavorites = getFavoritesWithoutPair(
-      favorites,
+    dispatch({
+      type: "remove",
       sendCurrency,
       receiveCurrency,
-    );
-    setItem(FAVORITES_STORAGE_KEY, updatedFavorites);
-    setFavorites(updatedFavorites);
+    });
   }
 
   return (

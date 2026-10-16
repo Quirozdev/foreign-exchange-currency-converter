@@ -25,7 +25,10 @@ export function CurrencyComparison({ rateData }: Props) {
       ?.name || "-";
 
   return (
-    <div className="rounded-10 flex items-center gap-x-2.5 border border-neutral-500 bg-neutral-600 p-3 md:gap-x-5 md:px-4">
+    <div
+      tabIndex={0}
+      className="rounded-10 flex items-center gap-x-2.5 border border-neutral-500 bg-neutral-600 p-3 outline-none focus:shadow-[0_0_0_2px_var(--color-neutral-900),0_0_0_4px_var(--color-lime-500)] md:gap-x-5 md:px-4"
+    >
       <img
         src={getCurrencyMetadataWithDefaults(rateData.quote).icon}
         alt={rateData.quote}

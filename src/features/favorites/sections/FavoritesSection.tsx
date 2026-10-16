@@ -20,7 +20,7 @@ export function FavoritesSection() {
             {favorites.length} favorites
           </p>
         </div>
-        <div className="flex flex-col gap-y-3">
+        <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto p-1">
           {favorites.map((favorite, index) => {
             return <FavoritePair key={index} {...favorite} />;
           })}

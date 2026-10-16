@@ -9,6 +9,7 @@ import type { Rate } from "../model/currencies.types";
 import { Skeleton } from "@/shared/components/Skeleton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-currencies";
 import { useRates } from "../hooks/use-rates";
+import { useFavorites } from "@/features/favorites/hooks/use-favorites";
 
 export function CheckRateSection() {
   const {
@@ -20,6 +21,8 @@ export function CheckRateSection() {
     changeReceiveCurrency,
   } = useRates();
 
+  const { addFavorite, removeFavorite, alreadyHasPair } = useFavorites();
+
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
@@ -29,6 +32,11 @@ export function CheckRateSection() {
     changeSendCurrency(receiveCurrency);
     changeReceiveCurrency(sendCurrency);
   }
+
+  const isPairAlreadyFavorited = alreadyHasPair({
+    sendCurrency,
+    receiveCurrency,
+  });
 
   return (
     <section className="flex flex-col gap-y-4">
@@ -92,18 +100,41 @@ export function CheckRateSection() {
           )}
 
           <div className="flex items-center justify-center gap-x-2">
-            <Button
-              icon={<FilledStarIcon />}
-              activeIcon={<FilledStarIcon />}
-              text="FAVORITE"
-              activeText="FAVORITED"
-            />
-            <Button
-              text="LOG CONVERSION"
-              activeIcon={<CheckIcon />}
-              activeText="Logged"
-              className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
-            />
+            {isLoading ? (
+              <Skeleton className="h-8 w-64" />
+            ) : (
+              <>
+                <Button
+                  isActive={isPairAlreadyFavorited}
+                  icon={<FilledStarIcon />}
+                  activeIcon={<FilledStarIcon />}
+                  text="FAVORITE"
+                  activeText="FAVORITED"
+                  loadingElement={
+                    <span className="text-preset-5-medium">Loading...</span>
+                  }
+                  onClick={async () => {
+                    if (isPairAlreadyFavorited) {
+                      removeFavorite(sendCurrency, receiveCurrency);
+                    } else {
+                      await addFavorite({
+                        sendCurrency: sendCurrency,
+                        receiveCurrency: receiveCurrency,
+                        rate: (data as Rate)?.rate,
+                        date: (data as Rate)?.date,
+                      });
+                    }
+                  }}
+                />
+                <Button
+                  isActive={false}
+                  text="LOG CONVERSION"
+                  activeIcon={<CheckIcon />}
+                  activeText="Logged"
+                  className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

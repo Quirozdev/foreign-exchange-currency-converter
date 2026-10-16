@@ -51,7 +51,7 @@ export function CompareSection() {
           {ratesWithoutOwnSendCurrency.length} pairs
         </p>
       </div>
-      <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto pr-1">
+      <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto p-1">
         {ratesWithoutOwnSendCurrency.map((rateData) => {
           return (
             <CurrencyComparison key={rateData.quote} rateData={rateData} />

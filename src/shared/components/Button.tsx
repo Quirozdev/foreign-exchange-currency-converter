@@ -7,6 +7,7 @@ interface Props extends React.ComponentPropsWithRef<"button"> {
   activeIcon?: ReactNode;
   activeText?: string;
   loadingElement?: ReactNode;
+  includeTimedActiveState?: boolean;
   onClick?: (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => void | Promise<void>;
@@ -20,6 +21,7 @@ export function Button({
   activeText,
   loadingElement,
   disabled,
+  includeTimedActiveState,
   onClick,
   ...props
 }: Props) {
@@ -52,6 +54,8 @@ export function Button({
         } finally {
           setIsLoading(false);
         }
+        if (!includeTimedActiveState) return;
+
         if (timeoutRef.current !== null) {
           clearTimeout(timeoutRef.current);
         }

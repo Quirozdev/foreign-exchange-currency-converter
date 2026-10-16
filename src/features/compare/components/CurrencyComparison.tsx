@@ -7,6 +7,7 @@ import { convert } from "@/features/rates/lib/currency";
 import type { Rate } from "@/features/rates/model/currencies.types";
 import { getCurrencyMetadataWithDefaults } from "@/features/rates/utils/currency-metadata";
 import { Button } from "@/shared/components/Button";
+import { CurrencyPairSetterContainer } from "@/shared/components/CurrencyPairSetterContainer";
 import { formatNumberToMoney } from "@/shared/utils/numbers";
 
 interface Props {
@@ -18,15 +19,23 @@ export function CurrencyComparison({ rateData }: Props) {
 
   const { sendValue } = useRates();
 
-  const { addFavorite } = useFavorites();
+  const { addFavorite, removeFavorite, alreadyHasPair } = useFavorites();
+
+  const isPairAlreadyFavorited = alreadyHasPair({
+    sendCurrency: rateData.base,
+    receiveCurrency: rateData.quote,
+    rate: rateData.rate,
+    date: rateData.date,
+  });
 
   const currencyName =
     currencies?.find((currency) => currency.iso_code === rateData.quote)
       ?.name || "-";
 
   return (
-    <div
-      tabIndex={0}
+    <CurrencyPairSetterContainer
+      sendCurrency={rateData.base}
+      receiveCurrency={rateData.quote}
       className="rounded-10 flex items-center gap-x-2.5 border border-neutral-500 bg-neutral-600 p-3 outline-none focus:shadow-[0_0_0_2px_var(--color-neutral-900),0_0_0_4px_var(--color-lime-500)] md:gap-x-5 md:px-4"
     >
       <img
@@ -49,21 +58,31 @@ export function CurrencyComparison({ rateData }: Props) {
         </div>
         <Button
           onClick={async () => {
-            await addFavorite({
-              sendCurrency: rateData.base,
-              receiveCurrency: rateData.quote,
-              rate: rateData.rate,
-              date: rateData.date,
-            });
+            if (isPairAlreadyFavorited) {
+              removeFavorite(rateData.base, rateData.quote);
+            } else {
+              await addFavorite({
+                sendCurrency: rateData.base,
+                receiveCurrency: rateData.quote,
+                rate: rateData.rate,
+                date: rateData.date,
+              });
+            }
           }}
           className="bg-neutral-600 hover:bg-neutral-500 focus:bg-neutral-600"
-          icon={<StarIcon />}
+          icon={
+            isPairAlreadyFavorited ? (
+              <FilledStarIcon className="text-lime-500" />
+            ) : (
+              <StarIcon />
+            )
+          }
           activeIcon={<FilledStarIcon className="text-lime-500" />}
           loadingElement={
             <FilledStarIcon className="animate-spin text-lime-500" />
           }
         />
       </div>
-    </div>
+    </CurrencyPairSetterContainer>
   );
 }

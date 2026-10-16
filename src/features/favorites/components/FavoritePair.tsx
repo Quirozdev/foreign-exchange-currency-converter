@@ -3,7 +3,7 @@ import { FilledStarIcon } from "@/features/rates/icons/FilledStarIcon";
 import { Button } from "@/shared/components/Button";
 import { cn } from "@/shared/lib/cn";
 import { useFavorites } from "../hooks/use-favorites";
-import { useRates } from "@/features/rates/hooks/use-rates";
+import { CurrencyPairSetterContainer } from "@/shared/components/CurrencyPairSetterContainer";
 
 interface Props {
   sendCurrency: string;
@@ -19,24 +19,11 @@ export function FavoritePair({
   changePercentage,
 }: Props) {
   const { removeFavorite } = useFavorites();
-  const { changeSendCurrency, changeReceiveCurrency } = useRates();
-
-  function setFavoriteCurrencyPair() {
-    changeSendCurrency(sendCurrency);
-    changeReceiveCurrency(receiveCurrency);
-  }
 
   return (
-    <div
-      onClick={setFavoriteCurrencyPair}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          setFavoriteCurrencyPair();
-        }
-      }}
-      tabIndex={0}
-      className="rounded-10 flex items-center justify-between border border-neutral-500 bg-neutral-600 p-3 outline-none focus:shadow-[0_0_0_2px_var(--color-neutral-900),0_0_0_4px_var(--color-lime-500)] md:px-4"
+    <CurrencyPairSetterContainer
+      sendCurrency={sendCurrency}
+      receiveCurrency={receiveCurrency}
     >
       <div className="flex items-center gap-x-2">
         <p className="text-preset-4 text-neutral-50">{sendCurrency}</p>
@@ -65,6 +52,6 @@ export function FavoritePair({
           activeIcon={<FilledStarIcon className="text-lime-500" />}
         />
       </div>
-    </div>
+    </CurrencyPairSetterContainer>
   );
 }

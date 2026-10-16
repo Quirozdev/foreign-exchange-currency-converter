@@ -102,6 +102,7 @@ export function FavoritesProvider({ children }: FavoritesProviderProps) {
         favorites,
         addFavorite,
         removeFavorite,
+        alreadyHasPair,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ interface FavoritesContextProps {
   favorites: Favorite[];
   addFavorite: (favorite: Omit<Favorite, "changePercentage">) => Promise<void>;
   removeFavorite: (sendCurrency: string, receiveCurrency: string) => void;
+  alreadyHasPair: (favorite: Omit<Favorite, "changePercentage">) => boolean;
 }
 
 export const FavoritesContext = createContext<FavoritesContextProps | null>(

@@ -115,12 +115,14 @@ export function CheckRateSection() {
                       date: (data as Rate)?.date,
                     });
                   }}
+                  includeTimedActiveState={true}
                 />
                 <Button
                   text="LOG CONVERSION"
                   activeIcon={<CheckIcon />}
                   activeText="Logged"
                   className="outline-lime-500 hover:outline-lime-500 hover:not-focus:bg-lime-800"
+                  includeTimedActiveState={true}
                 />
               </>
             )}

@@ -1,5 +1,6 @@
 import { Button } from "@/shared/components/Button";
 import { LogItem } from "../components/LogItem";
+import { LogSectionEmpty } from "../components/LogSectionEmpty";
 
 export function LogSection() {
   const dummyData = [
@@ -32,6 +33,10 @@ export function LogSection() {
       date: "1H",
     },
   ];
+
+  if (dummyData.length === 0) {
+    return <LogSectionEmpty />;
+  }
 
   return (
     <section className="rounded-16 flex flex-col gap-y-5 border border-neutral-600 bg-neutral-700 px-4 py-5 md:px-5">

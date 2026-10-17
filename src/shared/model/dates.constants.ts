@@ -16,6 +16,14 @@ export const MONTHS: Record<number, string> = {
   11: "Dec",
 };
 
+export const SECOND_TO_MS = 1000;
+export const MINUTE_TO_MS = 60 * SECOND_TO_MS;
+export const HOUR_TO_MS = 60 * MINUTE_TO_MS;
+export const DAY_TO_MS = 24 * HOUR_TO_MS;
+// aproximations
+export const YEAR_TO_MS = 365.25 * DAY_TO_MS;
+export const MONTH_TO_MS = YEAR_TO_MS / 12;
+
 export const intervalToDateParamsMapping: Record<
   Interval,
   Partial<DateParams>

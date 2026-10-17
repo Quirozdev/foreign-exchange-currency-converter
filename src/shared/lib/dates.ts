@@ -1,4 +1,12 @@
-import { MONTHS } from "../model/dates.constants";
+import {
+  DAY_TO_MS,
+  HOUR_TO_MS,
+  MINUTE_TO_MS,
+  MONTH_TO_MS,
+  MONTHS,
+  SECOND_TO_MS,
+  YEAR_TO_MS,
+} from "../model/dates.constants";
 import type { DateParams } from "../model/dates.types";
 
 export function extractDateComponentsFromIsoStringDateWithoutTime(
@@ -72,4 +80,49 @@ export function subtractFromDate(
     result.setDate(result.getDate() - days);
   }
   return result;
+}
+
+export function getDifferenceBetweenDatesInMilliseconds(a: Date, b: Date) {
+  return a.getTime() - b.getTime();
+}
+
+// this function aproximates the differences
+export function getDifferencePartsBetweenDates(from: Date, to: Date) {
+  let remainingMs = getDifferenceBetweenDatesInMilliseconds(to, from);
+
+  const years = Math.floor(remainingMs / YEAR_TO_MS);
+  remainingMs %= YEAR_TO_MS;
+
+  const months = Math.floor(remainingMs / MONTH_TO_MS);
+  remainingMs %= MONTH_TO_MS;
+
+  const days = Math.floor(remainingMs / DAY_TO_MS);
+  remainingMs %= DAY_TO_MS;
+
+  const hours = Math.floor(remainingMs / HOUR_TO_MS);
+  remainingMs %= HOUR_TO_MS;
+
+  const minutes = Math.floor(remainingMs / MINUTE_TO_MS);
+  remainingMs %= MINUTE_TO_MS;
+
+  const seconds = Math.floor(remainingMs / SECOND_TO_MS);
+
+  return { years, months, days, hours, minutes, seconds };
+}
+
+export function getRelativeTimeStringValueBetweenDates(from: Date, to: Date) {
+  const { years, months, days, hours, minutes, seconds } =
+    getDifferencePartsBetweenDates(from, to);
+
+  if (years > 0 || months > 0 || days > 0) {
+    const extracted = extractDatePartsFromDate(from);
+    const extractedMonthIndex = Number(extracted.month as string);
+    return `${extracted.day} ${MONTHS[extractedMonthIndex - 1]}`;
+  } else if (hours > 0) {
+    return `${hours}H`;
+  } else if (minutes > 0) {
+    return `${minutes}M`;
+  } else {
+    return `${seconds}S`;
+  }
 }

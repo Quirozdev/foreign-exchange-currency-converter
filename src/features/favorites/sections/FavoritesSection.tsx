@@ -21,8 +21,13 @@ export function FavoritesSection() {
           </p>
         </div>
         <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto p-1">
-          {favorites.map((favorite, index) => {
-            return <FavoritePair key={index} {...favorite} />;
+          {favorites.map((favorite) => {
+            return (
+              <FavoritePair
+                key={`${favorite.sendCurrency}-${favorite.receiveCurrency}`}
+                {...favorite}
+              />
+            );
           })}
         </div>
       </div>

@@ -1,40 +1,12 @@
 import { Button } from "@/shared/components/Button";
 import { LogItem } from "../components/LogItem";
 import { LogSectionEmpty } from "../components/LogSectionEmpty";
+import { useLogs } from "../hooks/use-logs";
 
 export function LogSection() {
-  const dummyData = [
-    {
-      sendCurrency: "USD",
-      sendValue: 1000,
-      receiveCurrency: "EUR",
-      receiveValue: 853.02,
-      date: new Date(2026, 9, 16, 6, 0, 0),
-    },
-    {
-      sendCurrency: "EUR",
-      sendValue: 500,
-      receiveCurrency: "JPY",
-      receiveValue: 92490,
-      date: new Date(2026, 9, 16, 15, 32, 0),
-    },
-    {
-      sendCurrency: "GBP",
-      sendValue: 250,
-      receiveCurrency: "USD",
-      receiveValue: 339.38,
-      date: new Date(2026, 9, 15, 11, 0, 0),
-    },
-    {
-      sendCurrency: "USD",
-      sendValue: 1500,
-      receiveCurrency: "GBP",
-      receiveValue: 1104.95,
-      date: new Date(2026, 9, 15, 1, 20, 0),
-    },
-  ];
+  const { logs, clearLogs } = useLogs();
 
-  if (dummyData.length === 0) {
+  if (logs.length === 0) {
     return <LogSectionEmpty />;
   }
 
@@ -46,23 +18,19 @@ export function LogSection() {
         </p>
         <div className="flex items-center justify-between gap-x-4">
           <p className="text-preset-5 text-neutral-50 uppercase opacity-70">
-            {dummyData.length} Logged
+            {logs.length} Logged
           </p>
           <Button
             isActive={false}
+            onClick={clearLogs}
             text="Clear All"
             className="text-neutral-200 uppercase outline-neutral-400"
           />
         </div>
       </div>
       <div className="flex max-h-162.5 scrollbar-thin scrollbar-thumb-neutral-200 flex-col gap-y-3 overflow-y-auto p-1">
-        {dummyData.map((data) => {
-          return (
-            <LogItem
-              key={`${data.date}-${data.sendCurrency}-${data.receiveCurrency}`}
-              {...data}
-            />
-          );
+        {logs.map((data) => {
+          return <LogItem key={data.id} {...data} />;
         })}
       </div>
     </section>

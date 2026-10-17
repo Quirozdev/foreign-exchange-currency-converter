@@ -3,6 +3,7 @@ import { CurrenciesProvider } from "../providers/CurrenciesProvider";
 import { RatesProvider } from "../providers/RatesProvider";
 import { CheckRateSection } from "./CheckRateSection";
 import { FeaturesSection } from "./FeaturesSection";
+import { LogsProvider } from "@/features/conversion-logs/providers/LogsProvider";
 
 export function MainSection() {
   return (
@@ -10,8 +11,10 @@ export function MainSection() {
       <RatesProvider>
         <CurrenciesProvider>
           <FavoritesProvider>
-            <CheckRateSection />
-            <FeaturesSection />
+            <LogsProvider>
+              <CheckRateSection />
+              <FeaturesSection />
+            </LogsProvider>
           </FavoritesProvider>
         </CurrenciesProvider>
       </RatesProvider>

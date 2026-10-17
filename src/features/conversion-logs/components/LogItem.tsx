@@ -3,27 +3,24 @@ import { formatNumberToMoney } from "@/shared/utils/numbers";
 import ArrowRightIcon from "@/assets/images/icon-arrow-right.svg";
 import TrashIcon from "@/assets/images/icon-delete.svg";
 import { getRelativeTimeStringValueBetweenDates } from "@/shared/lib/dates";
-
-interface Props {
-  sendCurrency: string;
-  sendValue: number;
-  receiveCurrency: string;
-  receiveValue: number;
-  date: Date;
-}
+import type { Log } from "../model/logs.types";
+import { useLogs } from "../hooks/use-logs";
 
 export function LogItem({
+  id,
   sendCurrency,
   sendValue,
   receiveCurrency,
   receiveValue,
-  date,
-}: Props) {
+  loggedAt,
+}: Log) {
+  const { removeLog } = useLogs();
+
   return (
     <div className="rounded-10 flex items-center justify-between gap-x-2.5 border border-neutral-500 bg-neutral-600 p-3 md:gap-x-4 md:p-4">
       <div className="flex flex-col gap-y-1 md:flex-1 md:flex-row md:gap-x-4">
         <p className="text-preset-4 text-neutral-200 md:min-w-16">
-          {getRelativeTimeStringValueBetweenDates(date, new Date())}
+          {getRelativeTimeStringValueBetweenDates(loggedAt, new Date())}
         </p>
         <div className="flex items-center gap-x-2 md:flex-1">
           <p className="text-preset-4 text-neutral-50">{sendCurrency}</p>
@@ -43,6 +40,7 @@ export function LogItem({
         </div>
         <Button
           isActive={false}
+          onClick={() => removeLog(id)}
           icon={<img src={TrashIcon} alt="Trash icon" />}
         />
       </div>

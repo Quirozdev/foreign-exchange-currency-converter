@@ -10,6 +10,7 @@ import { Skeleton } from "@/shared/components/Skeleton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-currencies";
 import { useRates } from "../hooks/use-rates";
 import { useFavorites } from "@/features/favorites/hooks/use-favorites";
+import { useLogs } from "@/features/conversion-logs/hooks/use-logs";
 
 export function CheckRateSection() {
   const {
@@ -22,6 +23,8 @@ export function CheckRateSection() {
   } = useRates();
 
   const { addFavorite, removeFavorite, alreadyHasPair } = useFavorites();
+
+  const { addLog, alreadyHasLoggedPair } = useLogs();
 
   const { isLoading, data } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
@@ -36,6 +39,16 @@ export function CheckRateSection() {
   const isPairAlreadyFavorited = alreadyHasPair({
     sendCurrency,
     receiveCurrency,
+  });
+
+  const receiveValue =
+    sendValue && data ? convert(Number(sendValue), data.rate) : "";
+
+  const isPairAlreadyLogged = alreadyHasLoggedPair({
+    sendCurrency,
+    sendValue: Number(sendValue),
+    receiveCurrency,
+    receiveValue: Number(receiveValue),
   });
 
   return (
@@ -70,11 +83,7 @@ export function CheckRateSection() {
                 <Skeleton />
               ) : (
                 <AmountInput
-                  value={
-                    sendValue
-                      ? convert(Number(sendValue), (data as Rate).rate)
-                      : ""
-                  }
+                  value={receiveValue}
                   className="border-none text-lime-500"
                   disabled
                 />
@@ -127,7 +136,17 @@ export function CheckRateSection() {
                   }}
                 />
                 <Button
-                  isActive={false}
+                  isActive={isPairAlreadyLogged}
+                  disabled={!receiveValue}
+                  onClick={() => {
+                    addLog({
+                      sendCurrency,
+                      sendValue: Number(sendValue),
+                      receiveCurrency,
+                      receiveValue: Number(receiveValue),
+                      loggedAt: new Date(),
+                    });
+                  }}
                   text="LOG CONVERSION"
                   activeIcon={<CheckIcon />}
                   activeText="Logged"

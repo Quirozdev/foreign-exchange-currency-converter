@@ -9,28 +9,28 @@ export function LogSection() {
       sendValue: 1000,
       receiveCurrency: "EUR",
       receiveValue: 853.02,
-      date: "20M",
+      date: new Date(2026, 9, 16, 6, 0, 0),
     },
     {
       sendCurrency: "EUR",
       sendValue: 500,
       receiveCurrency: "JPY",
       receiveValue: 92490,
-      date: "34M",
+      date: new Date(2026, 9, 16, 15, 32, 0),
     },
     {
       sendCurrency: "GBP",
       sendValue: 250,
       receiveCurrency: "USD",
       receiveValue: 339.38,
-      date: "50M",
+      date: new Date(2026, 9, 15, 11, 0, 0),
     },
     {
       sendCurrency: "USD",
       sendValue: 1500,
       receiveCurrency: "GBP",
       receiveValue: 1104.95,
-      date: "1H",
+      date: new Date(2026, 9, 15, 1, 20, 0),
     },
   ];
 

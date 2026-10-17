@@ -7,7 +7,7 @@ interface Props {
   onSelect: () => void;
 }
 
-export function Tab({ label, count, isActive, onSelect }: Props) {
+export function Tab({ label, count = 0, isActive, onSelect }: Props) {
   return (
     <button
       role="tab"
@@ -19,7 +19,7 @@ export function Tab({ label, count, isActive, onSelect }: Props) {
       onClick={onSelect}
     >
       <span className="text-preset-3 text-neutral-50 uppercase">{label}</span>
-      {count && (
+      {count > 0 && (
         <span className="text-preset-6 grid h-5 w-5 place-items-center rounded-full bg-lime-800 text-lime-500">
           {count}
         </span>

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { RatesContext } from "../context/RatesContext";
 
 interface RatesProviderProps {
@@ -9,18 +9,28 @@ export function RatesProvider({ children }: RatesProviderProps) {
   const [sendCurrency, setSendCurrency] = useState<string>("USD");
   const [sendValue, setSendValue] = useState<string>("");
   const [receiveCurrency, setReceiveCurrency] = useState<string>("EUR");
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  function changeSendCurrency(currency: string) {
+  const changeSendCurrency = useCallback((currency: string) => {
     setSendCurrency(currency);
-  }
+  }, []);
 
-  function changeSendValue(value: string) {
+  const changeSendValue = useCallback((value: string) => {
     setSendValue(value);
-  }
+  }, []);
 
-  function changeReceiveCurrency(currency: string) {
+  const changeReceiveCurrency = useCallback((currency: string) => {
     setReceiveCurrency(currency);
-  }
+  }, []);
+
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("sendCurrency", sendCurrency);
+    url.searchParams.set("receiveCurrency", receiveCurrency);
+    window.history.replaceState({}, "", url);
+  }, [isInitialized, sendCurrency, receiveCurrency]);
 
   return (
     <RatesContext.Provider
@@ -31,6 +41,8 @@ export function RatesProvider({ children }: RatesProviderProps) {
         changeSendValue,
         receiveCurrency,
         changeReceiveCurrency,
+        isInitialized,
+        setIsInitialized,
       }}
     >
       {children}

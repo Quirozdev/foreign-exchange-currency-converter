@@ -11,6 +11,8 @@ import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-curr
 import { useRates } from "../hooks/use-rates";
 import { useFavorites } from "@/features/favorites/hooks/use-favorites";
 import { useLogs } from "@/features/conversion-logs/hooks/use-logs";
+import { useEffect } from "react";
+import { useCurrencies } from "../hooks/use-currencies";
 
 export function CheckRateSection() {
   const {
@@ -20,7 +22,11 @@ export function CheckRateSection() {
     changeSendValue,
     receiveCurrency,
     changeReceiveCurrency,
+    isInitialized,
+    setIsInitialized,
   } = useRates();
+
+  const { currencies, isLoadingCurrencies, isValidCurrency } = useCurrencies();
 
   const { addFavorite, removeFavorite, alreadyHasPair } = useFavorites();
 
@@ -50,6 +56,35 @@ export function CheckRateSection() {
     receiveCurrency,
     receiveValue: Number(receiveValue),
   });
+
+  useEffect(() => {
+    if (isInitialized || isLoadingCurrencies || !currencies) return;
+
+    const params = new URLSearchParams(window.location.search);
+
+    const sendCurrency = params.get("sendCurrency");
+    const receiveCurrency = params.get("receiveCurrency");
+
+    changeSendCurrency(
+      sendCurrency && isValidCurrency(sendCurrency) ? sendCurrency : "USD",
+    );
+
+    changeReceiveCurrency(
+      receiveCurrency && isValidCurrency(receiveCurrency)
+        ? receiveCurrency
+        : "EUR",
+    );
+
+    setIsInitialized(true);
+  }, [
+    isLoadingCurrencies,
+    currencies,
+    isValidCurrency,
+    changeSendCurrency,
+    changeReceiveCurrency,
+    isInitialized,
+    setIsInitialized,
+  ]);
 
   return (
     <section className="flex flex-col gap-y-4">

@@ -18,12 +18,15 @@ export function generateUrlWithOptions({
     });
   }
   if (queryParams) {
-    let firstElement = true;
-    Object.entries(queryParams).forEach(([key, value]) => {
-      if (value === undefined) return;
-      finalUrl += `${firstElement ? "?" : "&"}${key}=${value}`;
-      firstElement = false;
-    });
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(queryParams)) {
+      if (value !== undefined) {
+        params.set(key, value);
+      }
+    }
+    if (params.size > 0) {
+      finalUrl += "?" + params.toString();
+    }
   }
   return finalUrl;
 }

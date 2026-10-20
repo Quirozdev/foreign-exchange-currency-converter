@@ -5,7 +5,6 @@ import { FilledStarIcon } from "../icons/FilledStarIcon";
 import { CheckIcon } from "../icons/CheckIcon";
 import { CurrencyButton } from "./CurrencyButton";
 import { convert } from "../lib/currency";
-import type { Rate } from "../model/currencies.types";
 import { Skeleton } from "@/shared/components/Skeleton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-currencies";
 import { useRates } from "../hooks/use-rates";
@@ -13,6 +12,7 @@ import { useFavorites } from "@/features/favorites/hooks/use-favorites";
 import { useLogs } from "@/features/conversion-logs/hooks/use-logs";
 import { useEffect } from "react";
 import { useCurrencies } from "../hooks/use-currencies";
+import type { Rate } from "../model/rates.types";
 
 export function CheckRateSection() {
   const {

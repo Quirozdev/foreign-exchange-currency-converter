@@ -1,7 +1,7 @@
 import { Logo } from "@/shared/components/Logo";
-import { LiveMarkets } from "./LiveMarkets";
 import { useCurrencies } from "../hooks/use-currencies";
 import { Skeleton } from "@/shared/components/Skeleton";
+import { LiveMarketsTicker } from "./LiveMarketsTicker";
 
 export function Header() {
   const { currencies, isLoadingCurrencies } = useCurrencies();
@@ -20,7 +20,7 @@ export function Header() {
           </div>
         )}
       </div>
-      <LiveMarkets />
+      <LiveMarketsTicker />
     </header>
   );
 }

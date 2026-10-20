@@ -1,5 +1,5 @@
 import { generateUrlWithOptions } from "@/shared/lib/url";
-import type { Rate } from "../model/currencies.types";
+import type { Rate } from "../model/rates.types";
 
 export async function getRates(
   baseCurrencyCode?: string,

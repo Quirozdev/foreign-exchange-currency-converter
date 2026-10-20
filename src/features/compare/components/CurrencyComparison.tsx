@@ -4,7 +4,7 @@ import { useRates } from "@/features/rates/hooks/use-rates";
 import { FilledStarIcon } from "@/features/rates/icons/FilledStarIcon";
 import { StarIcon } from "@/features/rates/icons/StarIcon";
 import { convert } from "@/features/rates/lib/currency";
-import type { Rate } from "@/features/rates/model/currencies.types";
+import type { Rate } from "@/features/rates/model/rates.types";
 import { getCurrencyMetadataWithDefaults } from "@/features/rates/utils/currency-metadata";
 import { Button } from "@/shared/components/Button";
 import { CurrencyPairSetterContainer } from "@/shared/components/CurrencyPairSetterContainer";

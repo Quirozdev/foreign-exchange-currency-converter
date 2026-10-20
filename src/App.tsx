@@ -10,7 +10,7 @@ function App() {
       <RatesProvider>
         <FavoritesProvider>
           <LogsProvider>
-            <MainPage />;
+            <MainPage />
           </LogsProvider>
         </FavoritesProvider>
       </RatesProvider>

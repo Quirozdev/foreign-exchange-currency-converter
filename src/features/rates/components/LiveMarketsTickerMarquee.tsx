@@ -71,7 +71,7 @@ export function LiveMarketsTickerMarquee() {
 
   return (
     <div className="min-w-0 flex-1 bg-neutral-700">
-      <Marquee>
+      <Marquee speed={60}>
         <div className="flex items-center">
           {mixedData.map((liveMarketTicker) => {
             return (

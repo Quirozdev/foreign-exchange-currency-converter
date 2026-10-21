@@ -4,7 +4,7 @@ export function getItem<T>(key: string): T | null {
 }
 
 export function getItemOrDefault<T>(key: string, defaultValue: T): T {
-  return getItem(key) || defaultValue;
+  return getItem(key) ?? defaultValue;
 }
 
 export function setItem<T>(key: string, value: T) {

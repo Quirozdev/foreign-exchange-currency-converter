@@ -8,7 +8,7 @@ import type { Rate } from "@/features/rates/model/rates.types";
 import { getCurrencyMetadataWithDefaults } from "@/features/rates/utils/currency-metadata";
 import { Button } from "@/shared/components/Button";
 import { CurrencyPairSetterContainer } from "@/shared/components/CurrencyPairSetterContainer";
-import { formatNumberToMoney } from "@/shared/utils/numbers";
+import { formatNumberWithCommas } from "@/shared/utils/numbers";
 
 interface Props {
   rateData: Rate;
@@ -48,7 +48,7 @@ export function CurrencyComparison({ rateData }: Props) {
       <div className="ml-auto flex items-center gap-x-2.5 md:gap-x-5">
         <div className="flex flex-col items-end gap-y-1.5">
           <p className="text-preset-3 text-neutral-50">
-            {formatNumberToMoney(
+            {formatNumberWithCommas(
               Number(convert(Number(sendValue), rateData.rate, 2)),
             )}
           </p>

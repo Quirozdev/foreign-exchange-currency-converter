@@ -1,5 +1,5 @@
 import { Button } from "@/shared/components/Button";
-import { formatNumberToMoney } from "@/shared/utils/numbers";
+import { formatNumberWithCommas } from "@/shared/utils/numbers";
 import ArrowRightIcon from "@/assets/images/icon-arrow-right.svg";
 import TrashIcon from "@/assets/images/icon-delete.svg";
 import { getRelativeTimeStringValueBetweenDates } from "@/shared/lib/dates";
@@ -32,10 +32,10 @@ export function LogItem({
       <div className="flex items-center gap-x-2.5 md:gap-x-4">
         <div className="flex flex-col items-end gap-x-5 gap-y-0.5 md:flex-row">
           <p className="text-preset-3 text-neutral-100">
-            {formatNumberToMoney(sendValue)}
+            {formatNumberWithCommas(sendValue)}
           </p>
           <p className="text-preset-3 text-lime-500">
-            {formatNumberToMoney(receiveValue)}
+            {formatNumberWithCommas(receiveValue)}
           </p>
         </div>
         <Button

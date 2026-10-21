@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:coverage": "vitest --coverage.enabled --coverage.provider=v8",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

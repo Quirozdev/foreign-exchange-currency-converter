@@ -7,12 +7,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { Rate } from "../../rates/model/currencies.types";
 import {
   extractDateComponentsFromIsoStringDateWithoutTime,
   formatIsoStringToLongDateString,
 } from "@/shared/lib/dates";
 import { HistoryChartTooltip } from "./HistoryChartTooltip";
+import type { Rate } from "@/features/rates/model/rates.types";
 
 interface Props {
   ratesHistory: Rate[];

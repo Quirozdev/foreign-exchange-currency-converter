@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Props<T> {
   queryFn: () => Promise<T>;
@@ -12,23 +12,26 @@ export function useFetch<T>({ queryFn, queryKey }: Props<T>) {
 
   const serializedQueryKey = JSON.stringify(queryKey);
 
+  const refetch = useCallback(async () => {
+    setIsLoading(true);
+    setData(null);
+    setError(null);
+    try {
+      const data = await queryFn();
+      setData(data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [queryFn]);
+
   useEffect(() => {
     async function fetchFn() {
-      setIsLoading(true);
-      setData(null);
-      setError(null);
-      try {
-        const data = await queryFn();
-        setData(data);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
+      await refetch();
     }
-
     fetchFn();
   }, [serializedQueryKey]);
 
-  return { isLoading, data, error };
+  return { isLoading, data, error, refetch };
 }

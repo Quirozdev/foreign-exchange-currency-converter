@@ -3,7 +3,7 @@ import { ExchangeButton } from "../components/ExchangeButton";
 import { Button } from "@/shared/components/Button";
 import { FilledStarIcon } from "../icons/FilledStarIcon";
 import { CheckIcon } from "../icons/CheckIcon";
-import { CurrencyButton } from "./CurrencyButton";
+import { CurrencyButton } from "../widgets/CurrencyButton";
 import { convert } from "../lib/currency";
 import { Skeleton } from "@/shared/components/Skeleton";
 import { useGetRateBetweenCurrencies } from "../hooks/use-get-rates-between-currencies";
@@ -13,6 +13,7 @@ import { useLogs } from "@/features/conversion-logs/hooks/use-logs";
 import { useEffect } from "react";
 import { useCurrencies } from "../hooks/use-currencies";
 import type { Rate } from "../model/rates.types";
+import { CheckRateSectionError } from "../components/CheckRateSectionError";
 
 export function CheckRateSection() {
   const {
@@ -32,7 +33,7 @@ export function CheckRateSection() {
 
   const { addLog, alreadyHasLoggedPair } = useLogs();
 
-  const { isLoading, data } = useGetRateBetweenCurrencies({
+  const { isLoading, data, error, refetch } = useGetRateBetweenCurrencies({
     baseCurrencyCode: sendCurrency,
     quoteCurrencyCode: receiveCurrency,
   });
@@ -85,6 +86,10 @@ export function CheckRateSection() {
     isInitialized,
     setIsInitialized,
   ]);
+
+  if (error) {
+    return <CheckRateSectionError isRetrying={isLoading} onRetry={refetch} />;
+  }
 
   return (
     <section className="flex flex-col gap-y-4">

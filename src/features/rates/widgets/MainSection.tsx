@@ -1,4 +1,4 @@
-import { CheckRateSection } from "./CheckRateSection";
+import { CheckRateSection } from "../sections/CheckRateSection";
 import { FeaturesSection } from "./FeaturesSection";
 
 export function MainSection() {

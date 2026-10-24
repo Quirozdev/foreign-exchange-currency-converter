@@ -10,12 +10,12 @@ export function useGetRateBetweenCurrencies({
   baseCurrencyCode,
   quoteCurrencyCode,
 }: Props) {
-  const { isLoading, data, error } = useFetch({
+  const { isLoading, data, error, refetch } = useFetch({
     queryFn: async () => {
       return getRateBetweenCurrencies(baseCurrencyCode, quoteCurrencyCode);
     },
     queryKey: ["rate-between-currencies", baseCurrencyCode, quoteCurrencyCode],
   });
 
-  return { isLoading, data, error };
+  return { isLoading, data, error, refetch };
 }

@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function useGetRates(props?: Props) {
-  const { isLoading, data, error } = useFetch({
+  const { isLoading, data, error, refetch } = useFetch({
     queryFn: async () => {
       return getRates(
         props?.baseCurrencyCode,
@@ -27,5 +27,5 @@ export function useGetRates(props?: Props) {
     ],
   });
 
-  return { isLoading, data, error };
+  return { isLoading, data, error, refetch };
 }

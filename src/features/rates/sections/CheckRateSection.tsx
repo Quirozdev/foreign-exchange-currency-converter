@@ -99,9 +99,15 @@ export function CheckRateSection() {
       <div className="rounded-20 bg-neutral-700 shadow-[0_12px_40px_0_rgba(0,0,0,0.4)]">
         <div className="flex flex-col items-center gap-y-4 p-4 md:flex-row md:gap-x-6 md:p-5">
           <div className="rounded-16 flex flex-1 flex-col gap-y-5 border border-neutral-500 bg-neutral-600 p-4 md:p-5">
-            <p className="text-preset-4 text-neutral-100 uppercase">Send</p>
+            <label
+              htmlFor="send-input"
+              className="text-preset-4 text-neutral-100 uppercase"
+            >
+              Send
+            </label>
             <div className="flex items-center justify-between gap-x-16">
               <AmountInput
+                id="send-input"
                 value={sendValue}
                 onChange={(e) => changeSendValue(e.target.value)}
               />
@@ -117,12 +123,19 @@ export function CheckRateSection() {
           <ExchangeButton onClick={handleExchangeCurrencies} />
 
           <div className="rounded-16 flex flex-1 flex-col gap-y-5 border border-neutral-500 bg-neutral-600 p-4 md:p-5">
-            <p className="text-preset-4 text-neutral-100 uppercase">Receive</p>
+            <label
+              htmlFor="receive-input"
+              className="text-preset-4 text-neutral-100 uppercase"
+            >
+              Receive
+            </label>
             <div className="flex items-center justify-between gap-x-16">
               {isLoading ? (
                 <Skeleton />
               ) : (
                 <AmountInput
+                  id="receive-input"
+                  aria-live="polite"
                   value={receiveValue}
                   className="border-none text-lime-500"
                   disabled

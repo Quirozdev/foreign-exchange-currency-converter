@@ -23,6 +23,9 @@ export function CurrencyButton({
 
   const hidePicker = useCallback(() => {
     setIsPickerVisible(false);
+    if (buttonRef?.current) {
+      buttonRef.current.focus();
+    }
   }, []);
 
   if (isLoadingCurrencies || !currencies) return null;

@@ -1,5 +1,6 @@
 import { generateUrlWithOptions } from "@/shared/lib/url";
 import type { Rate } from "../model/rates.types";
+import { fetchApi } from "@/shared/api/fetch-api";
 
 export async function getRates(
   baseCurrencyCode?: string,
@@ -16,10 +17,5 @@ export async function getRates(
       to: to,
     },
   });
-
-  const response = await fetch(url);
-
-  const data = await response.json();
-
-  return data;
+  return fetchApi<Rate[]>(url);
 }

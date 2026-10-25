@@ -1,6 +1,11 @@
 export function getItem<T>(key: string): T | null {
-  const item = localStorage.getItem(key);
-  return item ? JSON.parse(item) : null;
+  try {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+  } catch {
+    localStorage.removeItem(key);
+    return null;
+  }
 }
 
 export function getItemOrDefault<T>(key: string, defaultValue: T): T {

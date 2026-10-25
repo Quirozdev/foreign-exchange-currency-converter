@@ -23,6 +23,14 @@ describe("getItem", () => {
   it("returns null when the item does not exist", () => {
     expect(getItem("random-inexistent-key")).toBeNull();
   });
+
+  it("returns null and removes item from storage when its data is corrupt", () => {
+    localStorage.setItem("user", "{corrupt json");
+
+    expect(getItem("user")).toBeNull();
+
+    expect(localStorage.getItem("user")).toBeNull();
+  });
 });
 
 describe("getItemOrDefault", () => {
@@ -50,6 +58,17 @@ describe("getItemOrDefault", () => {
       id: 2,
       name: "Test 2",
     });
+  });
+
+  it("returns the provided default value and removes item from storage when its data is corrupt", () => {
+    localStorage.setItem("user", "{corrupt json");
+
+    expect(getItemOrDefault("user", { id: 6, name: "Test 6" })).toEqual({
+      id: 6,
+      name: "Test 6",
+    });
+
+    expect(localStorage.getItem("user")).toBeNull();
   });
 });
 

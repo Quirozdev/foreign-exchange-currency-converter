@@ -58,6 +58,7 @@ export function CurrencyButton({
                 getCurrencyMetadataWithDefaults(selectedCurrency.iso_code).icon
               }
               className="h-5 w-5 rounded-full"
+              alt=""
             />
             <p className="text-preset-4 text-neutral-50">
               {selectedCurrency?.iso_code}

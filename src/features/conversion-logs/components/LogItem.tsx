@@ -39,6 +39,7 @@ export function LogItem({
           </p>
         </div>
         <Button
+          aria-label="Remove logged conversion"
           isActive={false}
           onClick={() => removeLog(id)}
           icon={<img src={TrashIcon} alt="Trash icon" />}

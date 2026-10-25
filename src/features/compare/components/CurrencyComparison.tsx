@@ -55,6 +55,11 @@ export function CurrencyComparison({ rateData }: Props) {
           <p className="text-preset-6 text-neutral-200">@ {rateData.rate}</p>
         </div>
         <Button
+          aria-label={
+            isPairAlreadyFavorited
+              ? "Remove pair from favorites"
+              : "Add pair to favorites"
+          }
           isActive={isPairAlreadyFavorited}
           onClick={async (e) => {
             e.stopPropagation();

@@ -44,6 +44,7 @@ export function FavoritePair({
           </p>
         </div>
         <Button
+          aria-label="Remove pair from favorites"
           isActive={true}
           onClick={(e) => {
             e.stopPropagation();

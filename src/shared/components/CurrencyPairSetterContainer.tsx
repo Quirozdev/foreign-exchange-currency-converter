@@ -33,6 +33,7 @@ export function CurrencyPairSetterContainer({
           setFavoriteCurrencyPair();
         }
       }}
+      role="button"
       tabIndex={0}
       className={cn(
         "rounded-10 flex items-center justify-between border border-neutral-500 bg-neutral-600 p-3 outline-none focus:shadow-[0_0_0_2px_var(--color-neutral-900),0_0_0_4px_var(--color-lime-500)] md:px-4",

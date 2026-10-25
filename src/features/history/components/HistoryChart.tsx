@@ -13,12 +13,15 @@ import {
 } from "@/shared/lib/dates";
 import { HistoryChartTooltip } from "./HistoryChartTooltip";
 import type { Rate } from "@/features/rates/model/rates.types";
+import { useRates } from "@/features/rates/hooks/use-rates";
 
 interface Props {
   ratesHistory: Rate[];
 }
 
 export function HistoryChart({ ratesHistory }: Props) {
+  const { sendCurrency, receiveCurrency } = useRates();
+
   const isDifferenceMoreThanAYear =
     ratesHistory.length > 0 &&
     extractDateComponentsFromIsoStringDateWithoutTime(ratesHistory[0].date)
@@ -35,68 +38,91 @@ export function HistoryChart({ ratesHistory }: Props) {
   });
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <AreaChart
-        data={transformedData}
-        margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-      >
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop
-              offset="5%"
-              stopColor="var(--color-lime-500)"
-              stopOpacity={0.75}
-            />
-            <stop
-              offset="95%"
-              stopColor="var(--color-neutral-700)"
-              stopOpacity={0}
-            />
-          </linearGradient>
-        </defs>
-        <CartesianGrid
-          strokeDasharray="4 4"
-          vertical={false}
-          style={{
-            stroke: "var(--color-neutral-500)",
-          }}
-        />
-        <XAxis
-          dataKey="date"
-          tickLine={false}
-          minTickGap={40}
-          tickMargin={16}
-          tick={{
-            fill: "var(--color-neutral-200)",
-            fontSize: 10,
-            textAnchor: "start",
-          }}
-        />
-        <YAxis
-          width={75}
-          domain={["dataMin", "dataMax"]}
-          tickLine={false}
-          tickMargin={16}
-          tick={{
-            fill: "var(--color-neutral-200)",
-            fontSize: 10,
-            textAnchor: "end",
-          }}
-        />
-        <Tooltip
-          content={(tooltipContentProps) => (
-            <HistoryChartTooltip {...tooltipContentProps} />
-          )}
-        />
-        <Area
-          type="linear"
-          dataKey="rate"
-          stroke="var(--color-lime-500)"
-          strokeWidth={2}
-          fillOpacity={0.5}
-          fill="url(#colorUv)"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart
+          data={transformedData}
+          margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop
+                offset="5%"
+                stopColor="var(--color-lime-500)"
+                stopOpacity={0.75}
+              />
+              <stop
+                offset="95%"
+                stopColor="var(--color-neutral-700)"
+                stopOpacity={0}
+              />
+            </linearGradient>
+          </defs>
+          <CartesianGrid
+            strokeDasharray="4 4"
+            vertical={false}
+            style={{
+              stroke: "var(--color-neutral-500)",
+            }}
+          />
+          <XAxis
+            dataKey="date"
+            tickLine={false}
+            minTickGap={40}
+            tickMargin={16}
+            tick={{
+              fill: "var(--color-neutral-200)",
+              fontSize: 10,
+              textAnchor: "start",
+            }}
+          />
+          <YAxis
+            width={75}
+            domain={["dataMin", "dataMax"]}
+            tickLine={false}
+            tickMargin={16}
+            tick={{
+              fill: "var(--color-neutral-200)",
+              fontSize: 10,
+              textAnchor: "end",
+            }}
+          />
+          <Tooltip
+            content={(tooltipContentProps) => (
+              <HistoryChartTooltip {...tooltipContentProps} />
+            )}
+          />
+          <Area
+            type="linear"
+            dataKey="rate"
+            stroke="var(--color-lime-500)"
+            strokeWidth={2}
+            fillOpacity={0.5}
+            fill="url(#colorUv)"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+      <div className="sr-only">
+        <table>
+          <caption>{`Historical ${sendCurrency} to ${receiveCurrency} exchange rates`}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Exchange rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transformedData.map(({ date, rate }, index) => {
+              return (
+                <tr key={`${date}-${index}`}>
+                  <td>{date}</td>
+                  <td>{rate}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }

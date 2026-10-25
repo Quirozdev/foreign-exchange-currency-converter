@@ -69,8 +69,6 @@ export function CurrencyComparison({ rateData }: Props) {
               await addFavorite({
                 sendCurrency: rateData.base,
                 receiveCurrency: rateData.quote,
-                rate: rateData.rate,
-                date: rateData.date,
               });
             }
           }}

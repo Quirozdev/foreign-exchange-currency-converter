@@ -182,8 +182,6 @@ export function CheckRateSection() {
                       await addFavorite({
                         sendCurrency: sendCurrency,
                         receiveCurrency: receiveCurrency,
-                        rate: (data as Rate)?.rate,
-                        date: (data as Rate)?.date,
                       });
                     }
                   }}

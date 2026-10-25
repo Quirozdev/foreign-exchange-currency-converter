@@ -1,13 +1,11 @@
 import { createContext } from "react";
-import type { Favorite } from "../model/favorites.types";
+import type { FavoritePair } from "../model/favorites.types";
 
 interface FavoritesContextProps {
-  favorites: Favorite[];
-  addFavorite: (favorite: Omit<Favorite, "changePercentage">) => Promise<void>;
+  favorites: FavoritePair[];
+  addFavorite: (favorite: FavoritePair) => Promise<void>;
   removeFavorite: (sendCurrency: string, receiveCurrency: string) => void;
-  alreadyHasPair: (
-    favorite: Omit<Favorite, "changePercentage" | "rate" | "date">,
-  ) => boolean;
+  alreadyHasPair: (favorite: FavoritePair) => boolean;
 }
 
 export const FavoritesContext = createContext<FavoritesContextProps | null>(

@@ -5,3 +5,5 @@ export interface Favorite {
   date: string;
   changePercentage: number;
 }
+
+export type FavoritePair = Pick<Favorite, "sendCurrency" | "receiveCurrency">;

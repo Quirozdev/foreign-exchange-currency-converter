@@ -1,10 +1,8 @@
-import type { Favorite } from "./favorites.types";
+import type { FavoritePair } from "./favorites.types";
 
 type FavoritesAction =
-  | { type: "upsert"; favorite: Favorite }
+  | { type: "upsert"; favorite: FavoritePair }
   | { type: "remove"; sendCurrency: string; receiveCurrency: string };
-
-type FavoritePair = Pick<Favorite, "sendCurrency" | "receiveCurrency">;
 
 function isSamePair(a: FavoritePair, b: FavoritePair) {
   return (
@@ -12,7 +10,10 @@ function isSamePair(a: FavoritePair, b: FavoritePair) {
   );
 }
 
-export function favoritesReducer(state: Favorite[], action: FavoritesAction) {
+export function favoritesReducer(
+  state: FavoritePair[],
+  action: FavoritesAction,
+) {
   switch (action.type) {
     case "upsert": {
       const alreadyHasPair = state.some((current) => {

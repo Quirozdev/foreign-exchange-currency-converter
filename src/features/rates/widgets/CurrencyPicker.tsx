@@ -7,7 +7,7 @@ import { useKeyDown } from "@/shared/hooks/use-key-down";
 import { currenciesMetadata } from "../model/currencies.constants";
 import { getCurrencyMetadataWithDefaults } from "../utils/currency-metadata";
 
-interface Props {
+interface Props extends React.ComponentPropsWithRef<"div"> {
   currencies: Currency[];
   selectedCurrencyCode: string;
   onCurrencyChange: (currency: Currency) => void;
@@ -21,6 +21,7 @@ export function CurrencyPicker({
   onCurrencyChange,
   onHidePicker,
   currencyButtonRef,
+  ...props
 }: Props) {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -120,9 +121,13 @@ export function CurrencyPicker({
   return (
     <div
       ref={containerRef}
+      role="dialog"
+      aria-label="Choose a currency"
       className="rounded-8 fixed left-1/2 z-10 mt-5 flex min-w-77.5 -translate-x-1/2 flex-col gap-y-2.5 border border-neutral-400 bg-neutral-600 p-2 shadow-[0_20px_60px_0_rgba(10,10,10,0.5)] md:absolute md:right-0 md:left-auto md:translate-x-0"
+      {...props}
     >
       <SearchInput
+        aria-label="Search currencies"
         placeholder="Search currencies..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}

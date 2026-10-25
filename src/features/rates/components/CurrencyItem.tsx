@@ -16,6 +16,7 @@ export function CurrencyItem({
 }: Props) {
   return (
     <button
+      type="button"
       key={currency.iso_code}
       className="rounded-4 flex items-center gap-x-3 border border-neutral-600 bg-neutral-600 px-2 py-3 outline-none hover:border-neutral-200 focus:border-lime-500"
       onClick={() => onPick(currency)}

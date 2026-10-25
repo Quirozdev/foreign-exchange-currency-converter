@@ -45,7 +45,7 @@ export function formatIsoStringToLongDateString(
   const { year, month, day } =
     extractDateComponentsFromIsoStringDateWithoutTime(date);
   const parsedMonth = MONTHS[month];
-  const parsedDay = day < 9 ? `0${day}` : day;
+  const parsedDay = day < 10 ? `0${day}` : day;
   if (withYear) {
     return `${parsedMonth} ${parsedDay}, ${year}`;
   }

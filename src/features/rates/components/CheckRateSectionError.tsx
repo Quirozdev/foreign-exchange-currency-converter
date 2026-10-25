@@ -7,7 +7,7 @@ interface Props {
 
 export function CheckRateSectionError({ isRetrying, onRetry }: Props) {
   return (
-    <section className="flex flex-col gap-y-4">
+    <section className="flex flex-col gap-y-4" role="alert">
       <h1 className="text-preset-2 text-neutral-50 uppercase">
         Check the rate
       </h1>

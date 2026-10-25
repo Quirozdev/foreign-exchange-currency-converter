@@ -29,7 +29,7 @@ export function Marquee({ children, speed = 60 }: Props) {
   return (
     <div className="group h-full w-full overflow-hidden">
       <div
-        className="animate-marquee group-hover:pause-animation flex w-max"
+        className="animate-marquee group-hover:pause-animation flex w-max motion-reduce:animate-none"
         style={{
           animationDuration: `${duration}s`,
         }}

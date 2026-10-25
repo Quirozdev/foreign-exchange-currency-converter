@@ -90,11 +90,14 @@ Your users should be able to:
 
 ### Built with
 
+- Frankfurter Exchange Rate API
 - React and Typescript
 - TailwindCSS
 - Responsive design
 - CSS Grid
 - CSS Flex
+- Recharts
+- Local storage
 
 ## Author
 
